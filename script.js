@@ -5,26 +5,6 @@ const topBestStudentsList = [];
 let i, sumMarks, result;
 const studentsList = test.slice();
 
-const test2 = [
-	{
-		name: 'Domingo Morissette',
-		specialty: 'National Identity Engineer',
-		marks: [
-			79, 100, 83, 73, 55, 49, 71, 58, 21, 77, 57, 100, 94, 73, 81, 44, 68, 60, 85, 98, 80,
-			93, 84, 48, 51
-		]
-	},
-	{
-		name: 'Greg Lockman',
-		specialty: 'Corporate Integration Director',
-		marks: [
-			26, 87, 87, 24, 73, 27, 30, 45, 66, 37, 89, 56, 25, 38, 29, 20, 56, 93, 94, 49, 28, 44,
-			97, 88, 89
-		]
-	},
-]
-
-
 // function getMarksArray(array) {
 // 	for (i = 0; i < array.length; i++) {
 // 		marksArray.push(array[i].marks);

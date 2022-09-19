@@ -4,6 +4,14 @@ const medianaArray = [];
 const topBestStudentsList = [];
 let i, sumMarks, result;
 const studentsList = test.slice();
+//console.log(studentsList);
+
+//console.log(cloneList);
+
+let arr = [
+	{ mar: [1, 2, 5, 8, 9, 10] },
+	{ mar: [11, 12, 13, 14, 15, 16] }
+]
 
 function getMarksArray() {
 	for (i = 0; i < studentsList.length; i++) {
@@ -12,41 +20,45 @@ function getMarksArray() {
 	return marksArray;
 }
 
-// Новый студент - функция добавляет нового рандомного студента с полями (name, specialty, marks).
+// // Новый студент - функция добавляет нового рандомного студента с полями (name, specialty, marks).
 
 function addNewStudent(name, specialty, marks) {
 	studentsList.push({ name: name, specialty: specialty, marks: marks });
 	return studentsList;
 }
 addNewStudent('New student', 'New specialty', [5, 6, 7, 8]);
-//console.log(studentsList);
 
+const cloneListAverage = structuredClone(studentsList, { transferables: studentsList });
+const cloneListMediana = structuredClone(studentsList);
+console.log(cloneListAverage);
+console.log(studentsList);
 const sortedArray = studentsList.slice();
 const sortedBestStudentsArray = studentsList.slice();
 
-// Средняя оценка студента  - функция принимает массив студентов и каждому студенту добавляет среднюю оценку и возвращает обновленный список
+// // Средняя оценка студента  - функция принимает массив студентов и каждому студенту добавляет среднюю оценку и возвращает обновленный список
 getMarksArray();
 marksArray.forEach(function (el) {
 	sumMarks = el.reduce((prev, curr) => {
 		return prev + curr;
 	});
 	newArray.push(sumMarks / el.length);
-	studentsList.map(function (el, i) {
+	cloneListAverage.map(function (el, i) {
 		return el.average = (newArray[i]);
 	});
 });
 
 //console.log(studentsList);
+//console.log(cloneListAverage);
 
 
-// Список студентов на отчисление - функция, которая возвращает студентов, средний балл которых ниже 60.
+// // Список студентов на отчисление - функция, которая возвращает студентов, средний балл которых ниже 60.
 const badGradeArray = studentsList.filter(function (item) {
 	return item.average < 60;
 })
-//console.log(badGradeArray);
+// //console.log(badGradeArray);
 
 
-// Медианная оценка студента - функция принимает массив студентов и каждому студенту добавляет поле, в котором должна быть записана оценку, которая является медианой или тут.
+// // Медианная оценка студента - функция принимает массив студентов и каждому студенту добавляет поле, в котором должна быть записана оценку, которая является медианой или тут.
 getMarksArray();
 marksArray.forEach(function (el) {
 	el.sort((a, b) => a - b);
@@ -58,15 +70,17 @@ marksArray.forEach(function (el) {
 		result = el[res + 1];
 	}
 	medianaArray.push(result);
-	studentsList.map(function (el, i) {
+	cloneListMediana.map(function (el, i) {
 		return el.mediana = (medianaArray[i]);
 	});
 });
 
 //console.log(studentsList);
+//console.log(cloneListAverage);
+//console.log(cloneListMediana);
 
 
-// Распечатать список студентов - вывод отсортированного списка студентов по успеваемости (от самых успешных до двоечников) в виде <name> - <average grade>.
+// // Распечатать список студентов - вывод отсортированного списка студентов по успеваемости (от самых успешных до двоечников) в виде <name> - <average grade>.
 let averageListObject;
 let averageList = sortedArray.map(function (el) {
 	averageListObject = { name: el.name, average: el.average, }
@@ -80,15 +94,15 @@ function printBestStudentsList() {
 		console.log(`${resultArray[i].name} - ${resultArray[i].average}`);
 	};
 }
-//printBestStudentsList();
+// //printBestStudentsList();
 
 
 
-// Список самых успешных студентов - функция принимает массив студентов, возвращает топ 5 студентов по успеваемости.
+// // Список самых успешных студентов - функция принимает массив студентов, возвращает топ 5 студентов по успеваемости.
 
 let topBestStudents = sortedBestStudentsArray.sort((a, b) => a.average - b.average).reverse();
 for (i = 0; i < 5; i++) {
 	topBestStudentsList.push(topBestStudents[i]);
 }
 
-//console.log(topBestStudentsList);
+// //console.log(topBestStudentsList);

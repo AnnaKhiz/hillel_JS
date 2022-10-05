@@ -1,3 +1,55 @@
+/*
+1. Реализовать функцию фильтрации isBetween(min, max); 
+Пользователь задает значения min, max с окна ввода. 
+Валидировать значение min, max.
+*/
+let operation, firstDigit, secondDigit, min, max;
+
+function checkMin() {
+	do {
+		min = prompt('Enter min digit');
+		if (isNaN(min)) {
+			alert('It\'s not a digit!');
+		} else if (min == '' || min.match(/^[ ]+$/)) {
+			alert('The field is empty');
+		}
+	} while (isNaN(min) || min == '' || min.match(/^[ ]+$/));
+	return min;
+}
+
+function checkMax() {
+	do {
+		max = prompt('Enter max digit');
+		if (isNaN(max)) {
+			alert('It\'s not a digit!');
+		} else if (max == '' || max.match(/^[ ]+$/)) {
+			alert('The field is empty');
+		}
+	} while (isNaN(max) || max == '' || max.match(/^[ ]+$/));
+	return max;
+}
+
+function isBetween(min, max) {
+	let amount = Number(min);
+	const arr = [amount];
+
+	return {
+		arrFilter() {
+			for (let i = amount; i < max; i++) {
+				arr.push(++amount);
+			}
+			if (+min < +max) {
+				return arr;
+			} else {
+				alert('min must be < max');
+				return 'filter error. try again.';
+			}
+		}
+
+	}
+}
+
+//alert(`Result: ${isBetween(checkMin(), checkMax()).arrFilter()}`);
 
 /* 
 2. Реализовать функцию calculate(operation)(a)(b). 

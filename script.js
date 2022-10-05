@@ -5,34 +5,28 @@
 */
 let operation, firstDigit, secondDigit, min, max;
 
-function checkMin() {
-	do {
-		min = prompt('Enter min digit');
-		if (isNaN(min)) {
-			alert('It\'s not a digit!');
-		} else if (min == '' || min.match(/^[ ]+$/)) {
-			alert('The field is empty');
-		}
-	} while (isNaN(min) || min == '' || min.match(/^[ ]+$/));
-	return min;
-}
-
-function checkMax() {
-	do {
-		max = prompt('Enter max digit');
-		if (isNaN(max)) {
-			alert('It\'s not a digit!');
-		} else if (max == '' || max.match(/^[ ]+$/)) {
-			alert('The field is empty');
-		}
-	} while (isNaN(max) || max == '' || max.match(/^[ ]+$/));
-	return max;
+function checkMinMax() {
+	min = prompt('Enter min digit');
+	max = prompt('Enter max digit');
+	if (isNaN(min)) {
+		alert('It\'s not a digit!');
+	} else if (min == '' || min.match(/^[ ]+$/)) {
+		alert('The field is empty');
+	}
+	if (isNaN(max)) {
+		alert('It\'s not a digit!');
+	} else if (max == '' || max.match(/^[ ]+$/)) {
+		alert('The field is empty');
+	}
+	return [min, max];
 }
 
 function isBetween(min, max) {
+	let enteredDigits = checkMinMax();
+	min = enteredDigits[0];
+	max = enteredDigits[1];
 	let amount = Number(min);
 	const arr = [amount];
-
 	return {
 		arrFilter() {
 			for (let i = amount; i < max; i++) {
@@ -45,11 +39,10 @@ function isBetween(min, max) {
 				return 'filter error. try again.';
 			}
 		}
-
 	}
 }
 
-//alert(`Result: ${isBetween(checkMin(), checkMax()).arrFilter()}`);
+alert(`Result: ${isBetween(min, max).arrFilter()}`);
 
 /* 
 2. Реализовать функцию calculate(operation)(a)(b). 
@@ -115,7 +108,7 @@ function calculate(operation) {
 	}
 }
 
-alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
+//alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
 
 
 /*

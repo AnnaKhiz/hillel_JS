@@ -28,25 +28,35 @@ function checkMax() {
 	} while (isNaN(max) || max == '' || max.match(/^[ ]+$/));
 	return max;
 }
-
+let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let arr2 = [];
 function isBetween(min, max) {
-	let amount = Number(min);
-	const arr = [amount];
-	return {
-		filterArr() {
-			for (let i = amount; i < max; i++) {
-				arr.push(++amount);
-			}
-			if (+min < +max) {
-				return arr;
-			} else {
-				alert('min must be < max');
-				return 'filter error. try again.';
-			}
+	return arr.filter(function (item) {
+		if (item == min) {
+			arr2.push(item);
+			return arr2;
 		}
-	}
+
+	})
+	// 	let amount = Number(min);
+	// 	const arr = [amount];
+	// 	for (let i = amount; i < max; i++) {
+	// 		arr.push(++amount);
+	// 	}
+	// 	return function () {
+
+	// if (+min < +max) {
+	// 	return arr;
+	// } else {
+	// 	alert('min must be < max');
+	// 	return 'filter error. try again.';
+	// }
+	//arr.filter(isBetween(3, 6)) => [3, 4, 5, 6,]
+	//}
 }
-//alert(`Result: ${isBetween(checkMin(), checkMax()).filterArr()}`);
+//let fn = isBetween(2, 7);
+//console.log(fn);
+//alert(`Result: ${isBetween(checkMin(), checkMax())}`);
 
 /* 
 2. Реализовать функцию calculate(operation)(a)(b). 
@@ -55,29 +65,21 @@ function isBetween(min, max) {
 calculation(pow)(2)(3) => 8.
 */
 
-function checkFirstDigit() {
-	do {
-		firstDigit = prompt('Enter first digit');
-		if (isNaN(firstDigit)) {
-			alert('It\'s not a digit!');
-		} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
-			alert('The field is empty');
-		}
-	} while (isNaN(firstDigit) || firstDigit == '' || firstDigit.match(/^[ ]+$/));
-	return firstDigit;
+
+function checkDigits() {
+	if (isNaN(firstDigit)) {
+		alert('It\'s not a digit!');
+	} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
+		alert('The field is empty');
+	}
+	if (isNaN(secondDigit)) {
+		alert('It\'s not a digit!');
+	} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
+		alert('The field is empty');
+	}
+	return [firstDigit, secondDigit];
 }
 
-function checkSecondDigit() {
-	do {
-		secondDigit = prompt('Enter second digit');
-		if (isNaN(secondDigit)) {
-			alert('It\'s not a digit!');
-		} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
-			alert('The field is empty');
-		}
-	} while (isNaN(secondDigit) || secondDigit == '' || secondDigit.match(/^[ ]+$/));
-	return secondDigit;
-}
 
 function checkOperation(operation, firstDigit, secondDigit) {
 	switch (operation.trim()) {
@@ -108,10 +110,13 @@ function checkOperation(operation, firstDigit, secondDigit) {
 
 function calculate(operation) {
 	operation = prompt('Check operation: "+", "-", "*", "/", "pow"');
+	firstDigit = prompt('Enter first digit');
+	secondDigit = prompt('Enter second digit');
 	return function (firstDigit) {
-		firstDigit = checkFirstDigit();
+		let getDigits = checkDigits();
+		firstDigit = getDigits[0];
 		return function (secondDigit) {
-			secondDigit = checkSecondDigit();
+			secondDigit = getDigits[1];
 			return checkOperation(operation, firstDigit, secondDigit);
 		}
 	}
@@ -149,5 +154,5 @@ function sortByField(fieldName, sortType) {
 	}
 }
 
-console.log(sortByField('name', 'desc'));
+//console.log(sortByField('name', 'desc'));
 

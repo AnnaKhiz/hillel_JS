@@ -3,6 +3,7 @@
 Пользователь задает значения min, max с окна ввода. 
 Валидировать значение min, max.
 */
+
 let operation, firstDigit, secondDigit, min, max;
 
 function checkMinMax() {
@@ -21,28 +22,21 @@ function checkMinMax() {
 	return [min, max];
 }
 
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+
+const getEnteredNumbers = checkMinMax();
 function isBetween(min, max) {
-	let enteredDigits = checkMinMax();
-	min = enteredDigits[0];
-	max = enteredDigits[1];
-	let amount = Number(min);
-	const arr = [amount];
-	return {
-		arrFilter() {
-			for (let i = amount; i < max; i++) {
-				arr.push(++amount);
-			}
-			if (+min < +max) {
-				return arr;
-			} else {
-				alert('min must be < max');
-				return 'filter error. try again.';
-			}
+	minNumber = getEnteredNumbers[0];
+	maxNumber = getEnteredNumbers[1];
+	for (let i = 0; i <= arr.length; i++) {
+		if (arr[i] < min && arr[i] > max) {
+			return false;
 		}
 	}
+	return min >= minNumber && max < maxNumber;
 }
 
-alert(`Result: ${isBetween(min, max).arrFilter()}`);
+console.log(arr.filter(isBetween));
 
 /* 
 2. Реализовать функцию calculate(operation)(a)(b). 

@@ -122,17 +122,15 @@ function sortByField(fieldName, sortType) {
 			return sortByField(fieldName).desc();
 		case 'asc':
 			return sortByField(fieldName).asc();
-
 	}
 	return {
 		desc() {
-			return products.sort((a, b) => a[fieldName] < b[fieldName] ? 1 : -1);
+			return (a, b) => a[fieldName] < b[fieldName] ? 1 : -1;
 		},
 		asc() {
-			return products.sort((a, b) => a[fieldName] > b[fieldName] ? 1 : -1);
+			return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
 		}
 	}
 }
 
-//console.log(sortByField('name', 'desc'));
-
+console.log(products.sort(sortByField('price', 'asc')));

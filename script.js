@@ -1,16 +1,3 @@
-// const textBlock = document.getElementById('text-block');
-// const toggleButton = document.getElementById('button');
-
-// toggleButton.addEventListener('click', function () {
-// 	textBlock.classList.toggle('hidden');
-// 	if (textBlock.classList.contains('hidden')) {
-// 		toggleButton.innerText = 'Показать текст';
-// 	} else {
-// 		toggleButton.innerText = 'Скрыть текст';
-// 	}
-// })
-
-
 const btnInsta = document.getElementById('buttonInsta');
 const btnFb = document.getElementById('buttonFacebook');
 const clearInsta = document.getElementById('clearInsta');
@@ -68,5 +55,3 @@ clearFb.addEventListener('click', () => {
 	myStorage.removeItem('counterResultsFb');
 	document.location.reload();
 })
-
-console.log(myStorage);

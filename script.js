@@ -1,136 +1,72 @@
-/*
-1. Реализовать функцию фильтрации isBetween(min, max); 
-Пользователь задает значения min, max с окна ввода. 
-Валидировать значение min, max.
-*/
+// const textBlock = document.getElementById('text-block');
+// const toggleButton = document.getElementById('button');
 
-let operation, firstDigit, secondDigit, min, max;
+// toggleButton.addEventListener('click', function () {
+// 	textBlock.classList.toggle('hidden');
+// 	if (textBlock.classList.contains('hidden')) {
+// 		toggleButton.innerText = 'Показать текст';
+// 	} else {
+// 		toggleButton.innerText = 'Скрыть текст';
+// 	}
+// })
 
-function checkMinMax() {
-	min = prompt('Enter min digit');
-	max = prompt('Enter max digit');
-	if (isNaN(min)) {
-		alert('It\'s not a digit!');
-	} else if (min == '' || min.match(/^[ ]+$/)) {
-		alert('The field is empty');
+
+const btnInsta = document.getElementById('buttonInsta');
+const btnFb = document.getElementById('buttonFacebook');
+const clearInsta = document.getElementById('clearInsta');
+const clearFb = document.getElementById('clearFb');
+let myStorage = window.localStorage;
+
+function clickLikes() {
+	let counter;
+	if (!myStorage.getItem('counterResultsInsta')) {
+		counter = 0;
+	} else {
+		counter = myStorage.getItem('counterResultsInsta');
+		btnInsta.innerText = myStorage.getItem('counterResultsInsta');
 	}
-	if (isNaN(max)) {
-		alert('It\'s not a digit!');
-	} else if (max == '' || max.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [min, max];
-}
-
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-
-const getEnteredNumbers = checkMinMax();
-function isBetween(min, max) {
-	minNumber = getEnteredNumbers[0];
-	maxNumber = getEnteredNumbers[1];
-	for (let i = 0; i <= arr.length; i++) {
-		if (arr[i] < min && arr[i] > max) {
-			return false;
-		}
-	}
-	return min >= minNumber && max < maxNumber;
-}
-
-console.log(arr.filter(isBetween));
-
-/* 
-2. Реализовать функцию calculate(operation)(a)(b). 
-Пользователь указывает нужную ему операцию (+, -, *, /, pow), указывает первый операнд, указывает второй операнд. 
-Все вводимые значения валидировать.
-calculation(pow)(2)(3) => 8.
-*/
-
-
-function checkDigits() {
-	if (isNaN(firstDigit)) {
-		alert('It\'s not a digit!');
-	} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	if (isNaN(secondDigit)) {
-		alert('It\'s not a digit!');
-	} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [firstDigit, secondDigit];
-}
-
-
-function checkOperation(operation, firstDigit, secondDigit) {
-	switch (operation.trim()) {
-		case '+':
-			result = +firstDigit + +secondDigit;
-			break;
-		case '-':
-			result = firstDigit - secondDigit;
-			break;
-		case '*':
-			result = firstDigit * secondDigit;
-			break;
-		case '/':
-			if (secondDigit == 0) {
-				alert('Error! Сan\'t be divided by 0!');
-			} else {
-				result = firstDigit / secondDigit;
-			};
-			break;
-		case 'pow':
-			result = Math.pow(firstDigit, secondDigit);
-			break;
-		default:
-			alert('Entered operation is wrong!');
-	}
-	return result;
-}
-
-function calculate(operation) {
-	operation = prompt('Check operation: "+", "-", "*", "/", "pow"');
-	firstDigit = prompt('Enter first digit');
-	secondDigit = prompt('Enter second digit');
-	return function (firstDigit) {
-		let getDigits = checkDigits();
-		firstDigit = getDigits[0];
-		return function (secondDigit) {
-			secondDigit = getDigits[1];
-			return checkOperation(operation, firstDigit, secondDigit);
-		}
+	return () => {
+		return ++counter;
 	}
 }
 
-//alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
+let butInst = clickLikes();
 
+btnInsta.addEventListener('click', () => {
+	btnInsta.innerText = butInst();
+	myStorage.setItem('counterResultsInsta', btnInsta.innerText);
+});
 
-/*
-3. Реализовать функцию сортировки sortByField(fieldName, sortType) для списка товаров с полями name, price, quantity.
-sortType возможные значения: asc, desc - по возрастанию, по убыванию соответственно.
-*/
+clearInsta.addEventListener('click', () => {
+	btnInsta.innerText = 0;
+	myStorage.removeItem('counterResultsInsta');
+	document.location.reload();
+})
 
-const products = [
-	{ name: 'Product 1', quantity: 10, price: 25 },
-	{ name: 'Product 2', quantity: 3, price: 55 },
-	{ name: 'Product 3', quantity: 22, price: 35 },
-]
-
-function sortByField(fieldName, sortType) {
-	switch (sortType) {
-		case 'desc':
-			return sortByField(fieldName).desc();
-		case 'asc':
-			return sortByField(fieldName).asc();
+function clickLikesFb() {
+	let counter;
+	if (!myStorage.getItem('counterResultsFb')) {
+		counter = 0;
+	} else {
+		counter = myStorage.getItem('counterResultsFb');
+		btnFb.innerText = myStorage.getItem('counterResultsFb');
 	}
-	return {
-		desc() {
-			return (a, b) => a[fieldName] < b[fieldName] ? 1 : -1;
-		},
-		asc() {
-			return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
-		}
+	return () => {
+		return ++counter;
 	}
 }
 
-console.log(products.sort(sortByField('price', 'asc')));
+let butFb = clickLikesFb();
+
+btnFb.addEventListener('click', () => {
+	btnFb.innerText = butFb();
+	myStorage.setItem('counterResultsFb', btnFb.innerText);
+})
+
+clearFb.addEventListener('click', () => {
+	btnFb.innerText = 0;
+	myStorage.removeItem('counterResultsFb');
+	document.location.reload();
+})
+
+console.log(myStorage);

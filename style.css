@@ -1,0 +1,28 @@
+.not-active {
+	display: none;
+}
+
+.label-text {
+	font-weight: 700;
+	font-family: 'Times New Roman', Times, serif;
+	color: rgb(0, 0, 0);
+}
+
+.main-todo-text {
+	font-family: 'Times New Roman', Times, serif;
+	color: rgb(48, 47, 47);
+}
+
+.checked {
+	text-decoration: line-through;
+	color: rgb(175, 175, 175);
+}
+
+.button-add {
+	display: block;
+	margin-top: 15px;
+}
+
+.red-text {
+	color: red;
+}

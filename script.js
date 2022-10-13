@@ -1,136 +1,150 @@
-/*
-1. Реализовать функцию фильтрации isBetween(min, max); 
-Пользователь задает значения min, max с окна ввода. 
-Валидировать значение min, max.
-*/
+const inputLabel = document.getElementById('inputLabel');
+const inputText = document.getElementById('inputText');
+const formResult = document.getElementById('form__result');
+const buttonAdd = document.getElementById('buttonAdd');
+const errorArea = document.getElementById('errorArea');
 
-let operation, firstDigit, secondDigit, min, max;
-
-function checkMinMax() {
-	min = prompt('Enter min digit');
-	max = prompt('Enter max digit');
-	if (isNaN(min)) {
-		alert('It\'s not a digit!');
-	} else if (min == '' || min.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	if (isNaN(max)) {
-		alert('It\'s not a digit!');
-	} else if (max == '' || max.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [min, max];
+let i = 0;
+let j = 0;
+let btnIdCounter = 0;
+let m = 0;
+function iterator() {
+	return ++m;
 }
+let CreateCheckboxID = iterator;
+console.log(fff())
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
 
-const getEnteredNumbers = checkMinMax();
-function isBetween(min, max) {
-	minNumber = getEnteredNumbers[0];
-	maxNumber = getEnteredNumbers[1];
-	for (let i = 0; i <= arr.length; i++) {
-		if (arr[i] < min && arr[i] > max) {
-			return false;
-		}
+
+
+
+
+
+
+//добавление элемента списка
+buttonAdd.addEventListener('click', () => {
+	if (inputLabel.value.match(/^[ ]+$/) && inputText.value.match(/^[ ]+$/)) {
+		inputLabel.value = '';
+		inputText.value = '';
+		errorArea.innerHTML = '<p class="red-text">Введены пробелы! Элемент не добавлен!</p>';
+	} else if (inputLabel.value == '' && inputText.value == '') {
+		errorArea.innerHTML = '<p class="red-text">Заполните все поля!</p>';
+	} else {
+		errorArea.innerHTML = '';
+		formResult.insertAdjacentHTML('beforeend',
+			`<input type="checkbox" id="todo-${iterator()}">
+                <label for="todo-${++j}" id="label-${j}">
+                    <span class="label-text">${inputLabel.value}</span>
+                    <span class= "main-todo-text" > ${inputText.value}</span>
+                </label> 
+                <button id="del-btn-${++btnIdCounter}" class="not-active">Удалить</button><br>`);
+		inputLabel.value = '';
+		inputText.value = '';
+
+		//получаю в константы созданный элемент с чекбоксом
+		const checkboxElem = document.getElementById(`todo-${i}`);
+		const labelForCheckbox = document.getElementById(`label-${j}`);
+		const buttonId = document.getElementById(`del-btn-${btnIdCounter}`);
+
+
+		//проверка выбранного чекбокса, скрыть\показать кнопку "Удалить"
+		checkboxElem.addEventListener('click', checkCheckbox(labelForCheckbox.children, checkboxElem, buttonId, labelForCheckbox));
 	}
-	return min >= minNumber && max < maxNumber;
-}
-
-console.log(arr.filter(isBetween));
-
-/* 
-2. Реализовать функцию calculate(operation)(a)(b). 
-Пользователь указывает нужную ему операцию (+, -, *, /, pow), указывает первый операнд, указывает второй операнд. 
-Все вводимые значения валидировать.
-calculation(pow)(2)(3) => 8.
-*/
+});
 
 
-function checkDigits() {
-	if (isNaN(firstDigit)) {
-		alert('It\'s not a digit!');
-	} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	if (isNaN(secondDigit)) {
-		alert('It\'s not a digit!');
-	} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [firstDigit, secondDigit];
-}
 
+function checkCheckbox(obj, element, button, label) {
+	const labelChildren = Object.values(obj);
+	console.log(labelChildren);
+	if (element.checked) {
+		labelChildren.forEach((el) => {
+			el.classList.add('checked');
+			console.log(labelChildren);
+			button.classList.remove('not-active');
 
-function checkOperation(operation, firstDigit, secondDigit) {
-	switch (operation.trim()) {
-		case '+':
-			result = +firstDigit + +secondDigit;
-			break;
-		case '-':
-			result = firstDigit - secondDigit;
-			break;
-		case '*':
-			result = firstDigit * secondDigit;
-			break;
-		case '/':
-			if (secondDigit == 0) {
-				alert('Error! Сan\'t be divided by 0!');
-			} else {
-				result = firstDigit / secondDigit;
-			};
-			break;
-		case 'pow':
-			result = Math.pow(firstDigit, secondDigit);
-			break;
-		default:
-			alert('Entered operation is wrong!');
-	}
-	return result;
-}
+			//удаление элемента списка если но выбран
+			button.addEventListener('click', () => {
+				element.remove(); //del checkbox
+				button.nextElementSibling.remove(); //del <br>
+				label.remove(); //del checkbox description
+				button.remove();//del button
+			});
+		})
+	} else {
 
-function calculate(operation) {
-	operation = prompt('Check operation: "+", "-", "*", "/", "pow"');
-	firstDigit = prompt('Enter first digit');
-	secondDigit = prompt('Enter second digit');
-	return function (firstDigit) {
-		let getDigits = checkDigits();
-		firstDigit = getDigits[0];
-		return function (secondDigit) {
-			secondDigit = getDigits[1];
-			return checkOperation(operation, firstDigit, secondDigit);
-		}
+		labelChildren.forEach((el) => {
+			el.classList.remove('checked');
+			button.classList.add('not-active');
+		});
 	}
 }
 
-//alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
+//checkCheckbox(Object.values(labelForCheckbox.children), checkboxElem, buttonId, labelForCheckbox);
 
 
-/*
-3. Реализовать функцию сортировки sortByField(fieldName, sortType) для списка товаров с полями name, price, quantity.
-sortType возможные значения: asc, desc - по возрастанию, по убыванию соответственно.
-*/
 
-const products = [
-	{ name: 'Product 1', quantity: 10, price: 25 },
-	{ name: 'Product 2', quantity: 3, price: 55 },
-	{ name: 'Product 3', quantity: 22, price: 35 },
-]
 
-function sortByField(fieldName, sortType) {
-	switch (sortType) {
-		case 'desc':
-			return sortByField(fieldName).desc();
-		case 'asc':
-			return sortByField(fieldName).asc();
-	}
-	return {
-		desc() {
-			return (a, b) => a[fieldName] < b[fieldName] ? 1 : -1;
-		},
-		asc() {
-			return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
-		}
-	}
-}
 
-console.log(products.sort(sortByField('price', 'asc')));
+// const inputLabel = document.getElementById('inputLabel');
+// const inputText = document.getElementById('inputText');
+// const formResult = document.getElementById('form__result');
+// const buttonAdd = document.getElementById('buttonAdd');
+// const errorArea = document.getElementById('errorArea');
+
+// let i = 0;
+// let j = 0;
+// let btnIdCounter = 0;
+
+// //добавление элемента списка
+// buttonAdd.addEventListener('click', () => {
+// 	if (inputLabel.value.match(/^[ ]+$/) && inputText.value.match(/^[ ]+$/)) {
+// 		inputLabel.value = '';
+// 		inputText.value = '';
+// 		errorArea.innerHTML = '<p class="red-text">Введены пробелы! Элемент не добавлен!</p>';
+// 	} else if (inputLabel.value == '' && inputText.value == '') {
+// 		errorArea.innerHTML = '<p class="red-text">Заполните все поля!</p>';
+// 	} else {
+// 		errorArea.innerHTML = '';
+// 		formResult.insertAdjacentHTML('beforeend',
+// 			`<input type="checkbox" id="todo-${++i}">
+//             <label for="todo-${++j}" id="label-${j}">
+//                <span class="label-text">${inputLabel.value}</span>
+//                <span class= "main-todo-text" > ${inputText.value}</span>
+//             </label>
+//             <button id="del-btn-${++btnIdCounter}" class="not-active">Удалить</button><br>`);
+// 		inputLabel.value = '';
+// 		inputText.value = '';
+
+// 		//получаю в константы созданный элемент с чекбоксом
+// 		const checkboxElem = document.getElementById(`todo-${i}`);
+// 		const labelForCheckbox = document.getElementById(`label-${j}`);
+// 		const buttonId = document.getElementById(`del-btn-${btnIdCounter}`);
+
+// 		//проверка выбранного чекбокса, скрыть\показать кнопку "Удалить"
+// 		checkboxElem.addEventListener('click', () => {
+// 			const labelChildren = Object.values(labelForCheckbox.children);
+
+// 			if (checkboxElem.checked) {
+// 				labelChildren.forEach((el) => {
+// 					el.classList.add('checked');
+// 					buttonId.classList.remove('not-active');
+
+// 					//удаление элемента списка если но выбран
+// 					buttonId.addEventListener('click', () => {
+// 						checkboxElem.remove(); //del checkbox
+// 						buttonId.nextElementSibling.remove(); //del <br>
+// 						labelForCheckbox.remove(); //del checkbox description
+// 						buttonId.remove();//del button
+// 					});
+// 				})
+// 			} else {
+
+// 				labelChildren.forEach((el) => {
+// 					el.classList.remove('checked');
+// 					buttonId.classList.add('not-active');
+// 				});
+// 			}
+// 		});
+// 	}
+// });

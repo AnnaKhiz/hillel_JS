@@ -4,23 +4,25 @@ const clearInsta = document.getElementById('clearInsta');
 const clearFb = document.getElementById('clearFb');
 let myStorage = window.localStorage;
 
-function clickLikes() {
+function clickLikes(nameItem, nameButton) {
 	let counter;
-	if (!myStorage.getItem('counterResultsInsta')) {
+	if (!myStorage.getItem(nameItem)) {
 		counter = 0;
 	} else {
-		counter = myStorage.getItem('counterResultsInsta');
-		btnInsta.innerText = myStorage.getItem('counterResultsInsta');
+		counter = myStorage.getItem(nameItem);
+		nameButton.innerText = myStorage.getItem(nameItem);
 	}
 	return () => {
 		return ++counter;
 	}
 }
 
-let butInst = clickLikes();
+
+let buttonInst;
+buttonInst = clickLikes('counterResultsInsta', btnInsta);
 
 btnInsta.addEventListener('click', () => {
-	btnInsta.innerText = butInst();
+	btnInsta.innerText = buttonInst();
 	myStorage.setItem('counterResultsInsta', btnInsta.innerText);
 });
 
@@ -30,23 +32,11 @@ clearInsta.addEventListener('click', () => {
 	document.location.reload();
 })
 
-function clickLikesFb() {
-	let counter;
-	if (!myStorage.getItem('counterResultsFb')) {
-		counter = 0;
-	} else {
-		counter = myStorage.getItem('counterResultsFb');
-		btnFb.innerText = myStorage.getItem('counterResultsFb');
-	}
-	return () => {
-		return ++counter;
-	}
-}
-
-let butFb = clickLikesFb();
+let buttonFb;
+buttonFb = clickLikes('counterResultsFb', btnFb);
 
 btnFb.addEventListener('click', () => {
-	btnFb.innerText = butFb();
+	btnFb.innerText = buttonFb();
 	myStorage.setItem('counterResultsFb', btnFb.innerText);
 })
 
@@ -55,3 +45,6 @@ clearFb.addEventListener('click', () => {
 	myStorage.removeItem('counterResultsFb');
 	document.location.reload();
 })
+
+console.log(myStorage);
+//myStorage.clear();

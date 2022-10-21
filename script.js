@@ -13,15 +13,14 @@ const users = [
 	{ user: 'user_2', login: 'user_user@gmail.com', password: '213password' },
 	{ user: 'user_3', login: 'user.user@gmail.com', password: '215password' }
 ];
+console.log(users);
 
 //функция поиска пользователя в "БД"
 function findUser() {
 	users.forEach((element) => {
 		let userLogin = element.login;
 		let userPassword = element.password;
-		console.log(userLogin, userPassword);
 		if (inputEmail.value == userLogin && inputPassword.value == userPassword) {
-			//console.log('yes');
 			errorPasArea.innerHTML = '';
 			submitForm();
 		} else {
@@ -54,7 +53,6 @@ function submitForm() {
 
 //событие проверки на пустые поля и пробелы при потере фокуса
 form.addEventListener('focusout', (e) => {
-	console.dir(e.target)
 	if (e.target.tagName != 'input') {
 		if (e.target.value.match(/^[ ]+$/) || e.target.value == '') {
 			e.target.value = '';
@@ -93,7 +91,6 @@ function checkPasLength() {
 		inputPassword.style.boxShadow = 'inset 9px -2px 20px 6px rgb(0 58 58 / 20%)';
 		return true;
 	} else if (inputPassword.value.length < 6 && inputPassword.value.length > 0) {
-		console.log('hi');
 		buttonSubmit.disabled = true;
 		errorPasArea.innerHTML = '<p class="red-text">Пароль должен состоять минимум из 6 символов!</p>';
 		inputPassword.style.boxShadow = 'inset 9px -2px 20px 6px rgb(248 58 58 / 20%)';

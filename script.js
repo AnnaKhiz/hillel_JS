@@ -5,7 +5,6 @@ const form = document.getElementById('form');
 const errorEmailArea = document.getElementById('errorEmailArea');
 const errorPasArea = document.getElementById('errorPasArea');
 buttonSubmit.disabled = true;
-//console.dir(inputEmail)
 
 const users = [
 	{ user: 'admin', login: 'admin@gmail.com', password: 'password123' },
@@ -34,7 +33,6 @@ function findUser() {
 			});
 		}
 	});
-
 }
 
 //функция отправки формы
@@ -46,7 +44,7 @@ function submitForm() {
 		//inputPassword.value = inputPassword.value;
 		setTimeout(() => {
 			window.location.assign('https://google.com');
-		}, 1000);
+		}, 500);
 	});
 }
 
@@ -83,7 +81,6 @@ function notEmptyFields() {
 		buttonSubmit.disabled = true;
 	}
 }
-
 
 //функция проверки длины пароля
 function checkPasLength() {

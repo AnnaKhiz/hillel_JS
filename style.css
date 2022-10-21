@@ -28,7 +28,8 @@ input {
 	
 }
 form {
-	border: 1px red solid;
+	border-radius: 10px;
+	border: 1px black solid;
 }
 
 .input-focus-style:focus, .input-focus-style:focus {

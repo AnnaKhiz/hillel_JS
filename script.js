@@ -58,9 +58,7 @@ form.addEventListener('focusout', (e) => {
 			errorPasArea.innerHTML = '<p class="red-text">Заполните все поля!</p>';
 			buttonSubmit.disabled = true;
 		} else if (e.target.value !== '') {
-			inputPassword.addEventListener('keyup', (e) => {
-				checkPasLength();
-			});
+			checkPasLength();
 			notEmptyFields();
 			findUser();
 		} else {

@@ -1,0 +1,48 @@
+.main__form {
+	width: 400px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+p {
+	font-size: 1.3rem;
+	font-family: 'Times New Roman', Times, serif;
+}
+.not-active {
+	display: none;
+}
+
+.button-add {
+	display: block;
+	margin-top: 15px;
+}
+
+.red-text {
+	color: red;
+}
+
+input {
+	width: 200px;
+	border-radius: 20px;
+	padding: 10px 20px;
+	
+}
+form {
+	border: 1px red solid;
+}
+
+.input-focus-style:focus, .input-focus-style:focus {
+	box-shadow: inset 9px -2px 20px 6px rgb(248 58 58 / 20%);
+
+}
+
+input::placeholder {
+	font-size: 0.9rem;
+}
+
+.button-add {
+	width: 100px;
+	margin: 20px auto;
+	padding: 5px 10px;
+	cursor: pointer;
+}

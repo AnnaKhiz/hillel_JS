@@ -1,6 +1,6 @@
 function checkArray(array) {
 	if (!Array.isArray(array)) {
-		console.error('Marks mast be an array!');
+		console.error('Marks must be an array!');
 		return false;
 	} else {
 		return true;

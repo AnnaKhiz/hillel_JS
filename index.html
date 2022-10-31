@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="script.js" defer></script>
+	<title>Homework-14</title>
+</head>
+
+<body>
+	<main class="main">
+		<div class="main__container" id="main__container">
+			<div class="main__container-item active">
+				<img src="img\cat_1.jpg" alt="cat photo">
+			</div>
+			<div class="main__container-item">
+				<img src="img\cat_2.jpg" alt="cat photo">
+			</div>
+			<div class="main__container-item">
+				<img src="img\cat_3.jpg" alt="cat photo">
+			</div>
+			<div class="main__container-item">
+				<img src="img\cat_4.jpg" alt="cat photo">
+			</div>
+			<div class="main__container-item">
+				<img src="img\cat_5.jpg" alt="cat photo">
+			</div>
+
+		</div>
+		<button class="button-first" id="button-first">Первый</button>
+		<div class="slide-count-area" id="slide-count-area"></div>
+		<img src="img/next-arrow.png" alt="" class="button-next" id="button-next">
+		<img src="img/prev-arrow.png" alt="" class="button-prev" id="button-prev">
+		<button class="button-last" id="button-last">Последний</button>
+		<form action="#" class="form" id="form">
+			<div class="input-block">
+				<input type="text" class="input-index" id="input-index">
+				<button class="btn-get-index" id="btn-get-index">Открыть слайд по введенному индексу</button>
+			</div>
+			<div class="input-block">
+				<input type="text" class="input-add-index" id="input-add-index">
+				<button class="btn-add-index" id="btn-add-index">Добавить слайд на указанный индекс</button>
+			</div>
+
+			<button class="button-add-end" id="button-add-end">Добавить слайд в конец</button>
+		</form>
+		<div id="error-block" class="error-block red-text"></div>
+
+	</main>
+
+	<script type="text/template" id="slider-item-template">
+		<div class="main__container-item item1">
+				<img src="{{path}}" alt="{{description}}">
+		</div>
+	</script>
+
+</body>
+
+</html>

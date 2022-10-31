@@ -1,136 +1,118 @@
-/*
-1. Реализовать функцию фильтрации isBetween(min, max); 
-Пользователь задает значения min, max с окна ввода. 
-Валидировать значение min, max.
-*/
+let sliderItem = document.getElementsByClassName('main__container-item');
 
-let operation, firstDigit, secondDigit, min, max;
+const buttonFirst = document.getElementById('button-first');
+const buttonPrev = document.getElementById('button-prev');
+const buttonNext = document.getElementById('button-next');
+const buttonLast = document.getElementById('button-last');
+const inputIndex = document.getElementById('input-index');
+const btnGetIndex = document.getElementById('btn-get-index');
+const errorBlock = document.getElementById('error-block');
+const buttonAddSlideEnd = document.getElementById('button-add-end');
+const addSlideToIndex = document.getElementById('input-add-index');
+const buttonAddSlideToIndex = document.getElementById('btn-add-index');
+const form = document.getElementById('form');
+const mainContainer = document.getElementById('main__container');
 
-function checkMinMax() {
-	min = prompt('Enter min digit');
-	max = prompt('Enter max digit');
-	if (isNaN(min)) {
-		alert('It\'s not a digit!');
-	} else if (min == '' || min.match(/^[ ]+$/)) {
-		alert('The field is empty');
+const slideCountArea = document.getElementById('slide-count-area');
+slideCountArea.innerHTML = `<span>Текущий массив: от 0 до ${sliderItem.length - 1}</span>`;
+
+class Slider {
+	constructor(sliderEl) {
+		this.sliderEl = sliderEl;
 	}
-	if (isNaN(max)) {
-		alert('It\'s not a digit!');
-	} else if (max == '' || max.match(/^[ ]+$/)) {
-		alert('The field is empty');
+	nextSlide() {
+		clickSlide(1, [...this.sliderEl]);
 	}
-	return [min, max];
-}
-
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-
-const getEnteredNumbers = checkMinMax();
-function isBetween(min, max) {
-	minNumber = getEnteredNumbers[0];
-	maxNumber = getEnteredNumbers[1];
-	for (let i = 0; i <= arr.length; i++) {
-		if (arr[i] < min && arr[i] > max) {
-			return false;
+	prevSlide() {
+		clickSlide(-1, [...this.sliderEl]);
+	}
+	lastSlide() {
+		clickFirstLastSlide([...this.sliderEl], this.sliderEl.length - 1);
+	}
+	firstSlide() {
+		clickFirstLastSlide([...this.sliderEl], 0);
+	}
+	openSlideByIndex(index) {
+		let activeSlide = [...this.sliderEl].indexOf(document.querySelector('.active'));
+		this.sliderEl[activeSlide].classList.remove('active');
+		if (index > this.sliderEl.length - 1 || index < 0) {
+			this.sliderEl[0].classList.add('active');
+			errorBlock.innerText = 'There is no such index!';
+		} else {
+			this.sliderEl[index].classList.add('active');
 		}
 	}
-	return min >= minNumber && max < maxNumber;
-}
-
-console.log(arr.filter(isBetween));
-
-/* 
-2. Реализовать функцию calculate(operation)(a)(b). 
-Пользователь указывает нужную ему операцию (+, -, *, /, pow), указывает первый операнд, указывает второй операнд. 
-Все вводимые значения валидировать.
-calculation(pow)(2)(3) => 8.
-*/
-
-
-function checkDigits() {
-	if (isNaN(firstDigit)) {
-		alert('It\'s not a digit!');
-	} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
+	addSlide(title, description) {
+		const sliderItemTemplate = document.getElementById('slider-item-template').innerHTML;
+		const newSliderItemTemplate = sliderItemTemplate.replace('{{path}}', title)
+			.replace('{{description}}', description);
+		mainContainer.insertAdjacentHTML('beforeend',
+			`${newSliderItemTemplate}`);
+		findActiveElem([...this.sliderEl]);
+		[...this.sliderEl][this.sliderEl.length - 1].classList.add('active');
+		slideCountArea.innerHTML = `<span>Текущий массив: от 0 до ${this.sliderEl.length - 1}</span>`;
 	}
-	if (isNaN(secondDigit)) {
-		alert('It\'s not a digit!');
-	} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [firstDigit, secondDigit];
-}
-
-
-function checkOperation(operation, firstDigit, secondDigit) {
-	switch (operation.trim()) {
-		case '+':
-			result = +firstDigit + +secondDigit;
-			break;
-		case '-':
-			result = firstDigit - secondDigit;
-			break;
-		case '*':
-			result = firstDigit * secondDigit;
-			break;
-		case '/':
-			if (secondDigit == 0) {
-				alert('Error! Сan\'t be divided by 0!');
-			} else {
-				result = firstDigit / secondDigit;
-			};
-			break;
-		case 'pow':
-			result = Math.pow(firstDigit, secondDigit);
-			break;
-		default:
-			alert('Entered operation is wrong!');
-	}
-	return result;
-}
-
-function calculate(operation) {
-	operation = prompt('Check operation: "+", "-", "*", "/", "pow"');
-	firstDigit = prompt('Enter first digit');
-	secondDigit = prompt('Enter second digit');
-	return function (firstDigit) {
-		let getDigits = checkDigits();
-		firstDigit = getDigits[0];
-		return function (secondDigit) {
-			secondDigit = getDigits[1];
-			return checkOperation(operation, firstDigit, secondDigit);
+	insertSlide(index, title, description) {
+		if (index >= this.sliderEl.length || index < 0) {
+			errorBlock.innerText = 'There is no such index!';
 		}
-	}
-}
-
-//alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
-
-
-/*
-3. Реализовать функцию сортировки sortByField(fieldName, sortType) для списка товаров с полями name, price, quantity.
-sortType возможные значения: asc, desc - по возрастанию, по убыванию соответственно.
-*/
-
-const products = [
-	{ name: 'Product 1', quantity: 10, price: 25 },
-	{ name: 'Product 2', quantity: 3, price: 55 },
-	{ name: 'Product 3', quantity: 22, price: 35 },
-]
-
-function sortByField(fieldName, sortType) {
-	switch (sortType) {
-		case 'desc':
-			return sortByField(fieldName).desc();
-		case 'asc':
-			return sortByField(fieldName).asc();
-	}
-	return {
-		desc() {
-			return (a, b) => a[fieldName] < b[fieldName] ? 1 : -1;
-		},
-		asc() {
-			return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
+		else {
+			findActiveElem([...this.sliderEl]);
+			const sliderItemTemplate = document.getElementById('slider-item-template').innerHTML;
+			const newSliderItemTemplate = sliderItemTemplate.replace('{{path}}', title)
+				.replace('{{description}}', description);
+			sliderItem[index].insertAdjacentHTML('beforebegin',
+				`${newSliderItemTemplate}`);
+			this.sliderEl[index].classList.add('active');
+			slideCountArea.innerHTML = `<span>Текущий массив: от 0 до ${this.sliderEl.length - 1}</span>`;
 		}
+
 	}
 }
+const slider = new Slider(sliderItem);
 
-console.log(products.sort(sortByField('price', 'asc')));
+buttonNext.addEventListener('click', () => {
+	slider.nextSlide();
+});
+
+buttonPrev.addEventListener('click', () => {
+	slider.prevSlide();
+});
+
+buttonLast.addEventListener('click', () => {
+	slider.lastSlide();
+});
+
+buttonFirst.addEventListener('click', () => {
+	slider.firstSlide();
+});
+
+btnGetIndex.addEventListener('click', () => {
+	slider.openSlideByIndex(inputIndex.value);
+});
+
+buttonAddSlideEnd.addEventListener('click', () => {
+	slider.addSlide('img\\cat_6.jpg', '6th pic');
+});
+
+buttonAddSlideToIndex.addEventListener('click', () => {
+	slider.insertSlide(addSlideToIndex.value, 'img\\cat_7.jpg', '6th pic');
+});
+
+function findActiveElem(elem) {
+	let activeSlide = elem.indexOf(document.querySelector('.active'));
+	elem[activeSlide].classList.remove('active');
+}
+
+function clickSlide(index, elem) {
+	let activeSlide = elem.indexOf(document.querySelector('.active'));
+	elem[activeSlide].classList.remove('active');
+	elem[(activeSlide + index + elem.length) % elem.length].classList.add('active');
+}
+
+function clickFirstLastSlide(elem, position) {
+	let activeSlide = elem.indexOf(document.querySelector('.active'));
+	elem[activeSlide].classList.remove('active');
+	let checkedElem = elem[position];
+	checkedElem.classList.add('active');
+}

@@ -21,16 +21,16 @@ class Slider {
 		this.sliderEl = sliderEl;
 	}
 	nextSlide() {
-		clickSlide(1, [...this.sliderEl]);
+		this.clickSlide(1, [...this.sliderEl]);
 	}
 	prevSlide() {
-		clickSlide(-1, [...this.sliderEl]);
+		this.clickSlide(-1, [...this.sliderEl]);
 	}
 	lastSlide() {
-		clickFirstLastSlide([...this.sliderEl], this.sliderEl.length - 1);
+		this.clickFirstLastSlide([...this.sliderEl], this.sliderEl.length - 1);
 	}
 	firstSlide() {
-		clickFirstLastSlide([...this.sliderEl], 0);
+		this.clickFirstLastSlide([...this.sliderEl], 0);
 	}
 	openSlideByIndex(index) {
 		let activeSlide = [...this.sliderEl].indexOf(document.querySelector('.active'));
@@ -49,7 +49,7 @@ class Slider {
 			.replace('{{description}}', description);
 		mainContainer.insertAdjacentHTML('beforeend',
 			`${newSliderItemTemplate}`);
-		findActiveElem([...this.sliderEl]);
+		this.findActiveElem([...this.sliderEl]);
 		[...this.sliderEl][this.sliderEl.length - 1].classList.add('active');
 		slideCountArea.innerHTML = `<span>Текущий массив: от 0 до ${this.sliderEl.length - 1}</span>`;
 		errorBlock.innerText = '';
@@ -59,7 +59,7 @@ class Slider {
 			errorBlock.innerText = 'There is no such index!';
 		}
 		else {
-			findActiveElem([...this.sliderEl]);
+			this.findActiveElem([...this.sliderEl]);
 			const sliderItemTemplate = document.getElementById('slider-item-template').innerHTML;
 			const newSliderItemTemplate = sliderItemTemplate.replace('{{path}}', title)
 				.replace('{{description}}', description);
@@ -69,7 +69,21 @@ class Slider {
 			slideCountArea.innerHTML = `<span>Текущий массив: от 0 до ${this.sliderEl.length - 1}</span>`;
 			errorBlock.innerText = '';
 		}
-
+	}
+	clickSlide(index, elem) {
+		let activeSlide = elem.indexOf(document.querySelector('.active'));
+		elem[activeSlide].classList.remove('active');
+		elem[(activeSlide + index + elem.length) % elem.length].classList.add('active');
+	}
+	clickFirstLastSlide(elem, position) {
+		let activeSlide = elem.indexOf(document.querySelector('.active'));
+		elem[activeSlide].classList.remove('active');
+		let checkedElem = elem[position];
+		checkedElem.classList.add('active');
+	}
+	findActiveElem(elem) {
+		let activeSlide = elem.indexOf(document.querySelector('.active'));
+		elem[activeSlide].classList.remove('active');
 	}
 }
 const slider = new Slider(sliderItem);
@@ -102,20 +116,5 @@ buttonAddSlideToIndex.addEventListener('click', () => {
 	slider.insertSlide(addSlideToIndex.value, 'img\\cat_7.jpg', '6th pic');
 });
 
-function findActiveElem(elem) {
-	let activeSlide = elem.indexOf(document.querySelector('.active'));
-	elem[activeSlide].classList.remove('active');
-}
 
-function clickSlide(index, elem) {
-	let activeSlide = elem.indexOf(document.querySelector('.active'));
-	elem[activeSlide].classList.remove('active');
-	elem[(activeSlide + index + elem.length) % elem.length].classList.add('active');
-}
 
-function clickFirstLastSlide(elem, position) {
-	let activeSlide = elem.indexOf(document.querySelector('.active'));
-	elem[activeSlide].classList.remove('active');
-	let checkedElem = elem[position];
-	checkedElem.classList.add('active');
-}

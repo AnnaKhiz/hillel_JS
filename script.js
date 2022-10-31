@@ -40,6 +40,7 @@ class Slider {
 			errorBlock.innerText = 'There is no such index!';
 		} else {
 			this.sliderEl[index].classList.add('active');
+			errorBlock.innerText = '';
 		}
 	}
 	addSlide(title, description) {
@@ -51,6 +52,7 @@ class Slider {
 		findActiveElem([...this.sliderEl]);
 		[...this.sliderEl][this.sliderEl.length - 1].classList.add('active');
 		slideCountArea.innerHTML = `<span>Текущий массив: от 0 до ${this.sliderEl.length - 1}</span>`;
+		errorBlock.innerText = '';
 	}
 	insertSlide(index, title, description) {
 		if (index >= this.sliderEl.length || index < 0) {
@@ -65,6 +67,7 @@ class Slider {
 				`${newSliderItemTemplate}`);
 			this.sliderEl[index].classList.add('active');
 			slideCountArea.innerHTML = `<span>Текущий массив: от 0 до ${this.sliderEl.length - 1}</span>`;
+			errorBlock.innerText = '';
 		}
 
 	}

@@ -76,26 +76,36 @@ Pizza.prototype.changeDough = function (name) {
 }
 
 Pizza.prototype.getPrice = function () {
-	let toppingPriceArr = [];
-	[...this.topping].map((el) => {
-		toppingPriceArr.push(el.price);
-	});
-	let toppingPrice = toppingPriceArr.reduce((prev, curr) => prev + curr);
-	let finalPrice = this.size.price + this.dough.price + toppingPrice + ` y.e.`;
-	return finalPrice;
+	if (Array.isArray([...this.topping]) && [...this.topping].length != 0) {
+		let toppingPriceArr = [];
+		[...this.topping].map((el) => {
+			toppingPriceArr.push(el.price);
+		});
+		let toppingPrice = toppingPriceArr.reduce((prev, curr) => prev + curr);
+		let finalPrice = this.size.price + this.dough.price + toppingPrice + ` y.e.`;
+		return finalPrice;
+	} else {
+		let finalPrice = this.size.price + this.dough.price + ` y.e. (no topping)`;
+		return finalPrice;
+	}
 }
 
 Pizza.prototype.getCallories = function () {
-	let pizzaCaloriesArr = [];
-	[...this.topping].map((el) => {
-		pizzaCaloriesArr.push(el.ccal);
-	});
-	let caloriesSum = pizzaCaloriesArr.reduce((prev, curr) => prev + curr);
-	let finalCaloriesSum = this.size.ccal + this.dough.ccal + caloriesSum + ` ccal`;
-	return finalCaloriesSum;
+	if (Array.isArray([...this.topping]) && [...this.topping].length != 0) {
+		let pizzaCaloriesArr = [];
+		[...this.topping].map((el) => {
+			pizzaCaloriesArr.push(el.ccal);
+		});
+		let caloriesSum = pizzaCaloriesArr.reduce((prev, curr) => prev + curr);
+		let finalCaloriesSum = this.size.ccal + this.dough.ccal + caloriesSum + ` ccal`;
+		return finalCaloriesSum;
+	} else {
+		let finalCaloriesSum = this.size.ccal + this.dough.ccal + ` ccal (no topping)`;
+		return finalCaloriesSum;
+	}
 }
 
-const pizza = new Pizza(Pizza.SIZE.SIZE_SMALL, [Pizza.TOPPING.TOPPING_PEPPER, Pizza.TOPPING.TOPPING_SAUSAGE]);
+const pizza = new Pizza(Pizza.SIZE.SIZE_SMALL, [Pizza.TOPPING.TOPPING_SAUSAGE, Pizza.TOPPING.TOPPING_CHEESE]);
 console.log(pizza);
 //pizza.changeDough('THICK');
 //pizza.addTopping(Pizza.TOPPING.TOPPING_ANANAS);

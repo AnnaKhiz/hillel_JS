@@ -1,136 +1,104 @@
-/*
-1. Реализовать функцию фильтрации isBetween(min, max); 
-Пользователь задает значения min, max с окна ввода. 
-Валидировать значение min, max.
-*/
-
-let operation, firstDigit, secondDigit, min, max;
-
-function checkMinMax() {
-	min = prompt('Enter min digit');
-	max = prompt('Enter max digit');
-	if (isNaN(min)) {
-		alert('It\'s not a digit!');
-	} else if (min == '' || min.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	if (isNaN(max)) {
-		alert('It\'s not a digit!');
-	} else if (max == '' || max.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [min, max];
+function Pizza(size, topping = []) {
+	this.size = size;
+	this.dough = Pizza.DOUGHT.THIN;
+	this.topping = [...topping];
 }
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-
-const getEnteredNumbers = checkMinMax();
-function isBetween(min, max) {
-	minNumber = getEnteredNumbers[0];
-	maxNumber = getEnteredNumbers[1];
-	for (let i = 0; i <= arr.length; i++) {
-		if (arr[i] < min && arr[i] > max) {
-			return false;
-		}
-	}
-	return min >= minNumber && max < maxNumber;
-}
-
-console.log(arr.filter(isBetween));
-
-/* 
-2. Реализовать функцию calculate(operation)(a)(b). 
-Пользователь указывает нужную ему операцию (+, -, *, /, pow), указывает первый операнд, указывает второй операнд. 
-Все вводимые значения валидировать.
-calculation(pow)(2)(3) => 8.
-*/
-
-
-function checkDigits() {
-	if (isNaN(firstDigit)) {
-		alert('It\'s not a digit!');
-	} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	if (isNaN(secondDigit)) {
-		alert('It\'s not a digit!');
-	} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [firstDigit, secondDigit];
-}
-
-
-function checkOperation(operation, firstDigit, secondDigit) {
-	switch (operation.trim()) {
-		case '+':
-			result = +firstDigit + +secondDigit;
-			break;
-		case '-':
-			result = firstDigit - secondDigit;
-			break;
-		case '*':
-			result = firstDigit * secondDigit;
-			break;
-		case '/':
-			if (secondDigit == 0) {
-				alert('Error! Сan\'t be divided by 0!');
-			} else {
-				result = firstDigit / secondDigit;
-			};
-			break;
-		case 'pow':
-			result = Math.pow(firstDigit, secondDigit);
-			break;
-		default:
-			alert('Entered operation is wrong!');
-	}
-	return result;
-}
-
-function calculate(operation) {
-	operation = prompt('Check operation: "+", "-", "*", "/", "pow"');
-	firstDigit = prompt('Enter first digit');
-	secondDigit = prompt('Enter second digit');
-	return function (firstDigit) {
-		let getDigits = checkDigits();
-		firstDigit = getDigits[0];
-		return function (secondDigit) {
-			secondDigit = getDigits[1];
-			return checkOperation(operation, firstDigit, secondDigit);
-		}
+Pizza.SIZE = {
+	SIZE_SMALL: {
+		name: 'small',
+		price: 50,
+		ccal: 20,
+	},
+	SIZE_MEDIUM: {
+		name: 'medium',
+		price: 75,
+		ccal: 30,
+	},
+	SIZE_LARGE: {
+		name: 'large',
+		price: 100,
+		ccal: 40,
 	}
 }
 
-//alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
-
-
-/*
-3. Реализовать функцию сортировки sortByField(fieldName, sortType) для списка товаров с полями name, price, quantity.
-sortType возможные значения: asc, desc - по возрастанию, по убыванию соответственно.
-*/
-
-const products = [
-	{ name: 'Product 1', quantity: 10, price: 25 },
-	{ name: 'Product 2', quantity: 3, price: 55 },
-	{ name: 'Product 3', quantity: 22, price: 35 },
-]
-
-function sortByField(fieldName, sortType) {
-	switch (sortType) {
-		case 'desc':
-			return sortByField(fieldName).desc();
-		case 'asc':
-			return sortByField(fieldName).asc();
-	}
-	return {
-		desc() {
-			return (a, b) => a[fieldName] < b[fieldName] ? 1 : -1;
-		},
-		asc() {
-			return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
-		}
+Pizza.DOUGHT = {
+	THIN: {
+		name: 'thin (default)',
+		price: 0,
+		ccal: 0,
+	},
+	THICK: {
+		name: 'thick',
+		price: 0,
+		ccal: 10,
 	}
 }
 
-console.log(products.sort(sortByField('price', 'asc')));
+Pizza.TOPPING = {
+	TOPPING_CHEESE: {
+		name: 'cheese',
+		price: 10,
+		ccal: 20,
+	},
+	TOPPING_SAUSAGE: {
+		name: 'sausage',
+		price: 20,
+		ccal: 5,
+	},
+	TOPPING_ANANAS: {
+		name: 'ananas',
+		price: 15,
+		ccal: 5,
+	},
+	TOPPING_PEPPER: {
+		name: 'pepper',
+		price: 15,
+		ccal: 0,
+	},
+	TOPPING_SAUCE: {
+		name: 'sause',
+		price: 20,
+		ccal: 5,
+	}
+}
+
+Pizza.prototype.addTopping = function (name) {
+	return this.topping.push(name);
+}
+
+Pizza.prototype.changeDough = function (name) {
+	if (name == 'THICK') {
+		return this.dough = Pizza.DOUGHT.THICK;
+	} else if (name == 'THIN') {
+		return this.dough = Pizza.DOUGHT.THIN;
+	}
+}
+
+Pizza.prototype.getPrice = function () {
+	let toppingPriceArr = [];
+	[...this.topping].map((el) => {
+		toppingPriceArr.push(el.price);
+	});
+	let toppingPrice = toppingPriceArr.reduce((prev, curr) => prev + curr);
+	let finalPrice = this.size.price + this.dough.price + toppingPrice + ` y.e.`;
+	return finalPrice;
+}
+
+Pizza.prototype.getCallories = function () {
+	let pizzaCaloriesArr = [];
+	[...this.topping].map((el) => {
+		pizzaCaloriesArr.push(el.ccal);
+	});
+	let caloriesSum = pizzaCaloriesArr.reduce((prev, curr) => prev + curr);
+	let finalCaloriesSum = this.size.ccal + this.dough.ccal + caloriesSum + ` ccal`;
+	return finalCaloriesSum;
+}
+
+const pizza = new Pizza(Pizza.SIZE.SIZE_SMALL, [Pizza.TOPPING.TOPPING_PEPPER, Pizza.TOPPING.TOPPING_SAUSAGE]);
+console.log(pizza);
+//pizza.changeDough('THICK');
+//pizza.addTopping(Pizza.TOPPING.TOPPING_ANANAS);
+//pizza.addTopping(Pizza.TOPPING.TOPPING_SAUCE);
+console.log('Total price: ' + pizza.getPrice());
+console.log('Total callories: ' + pizza.getCallories());

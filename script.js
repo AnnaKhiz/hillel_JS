@@ -74,23 +74,33 @@ class Pizza {
 	}
 
 	getPrice() {
-		let toppingPriceArr = [];
-		[...this.topping].map((el) => {
-			toppingPriceArr.push(el.price);
-		});
-		let toppingPrice = toppingPriceArr.reduce((prev, curr) => prev + curr);
-		let finalPrice = this.size.price + this.dough.price + toppingPrice + ` y.e.`;
-		return finalPrice;
+		if (Array.isArray([...this.topping]) && [...this.topping].length != 0) {
+			let toppingPriceArr = [];
+			[...this.topping].map((el) => {
+				toppingPriceArr.push(el.price);
+			});
+			let toppingPrice = toppingPriceArr.reduce((prev, curr) => prev + curr);
+			let finalPrice = this.size.price + this.dough.price + toppingPrice + ` y.e.`;
+			return finalPrice;
+		} else {
+			let finalPrice = this.size.price + this.dough.price + ` y.e. (no topping)`;
+			return finalPrice;
+		}
 	}
 
 	getCallories() {
-		let pizzaCaloriesArr = [];
-		[...this.topping].map((el) => {
-			pizzaCaloriesArr.push(el.ccal);
-		});
-		let caloriesSum = pizzaCaloriesArr.reduce((prev, curr) => prev + curr);
-		let finalCaloriesSum = this.size.ccal + this.dough.ccal + caloriesSum + ` ccal`;
-		return finalCaloriesSum;
+		if (Array.isArray([...this.topping]) && [...this.topping].length != 0) {
+			let pizzaCaloriesArr = [];
+			[...this.topping].map((el) => {
+				pizzaCaloriesArr.push(el.ccal);
+			});
+			let caloriesSum = pizzaCaloriesArr.reduce((prev, curr) => prev + curr);
+			let finalCaloriesSum = this.size.ccal + this.dough.ccal + caloriesSum + ` ccal`;
+			return finalCaloriesSum;
+		} else {
+			let finalCaloriesSum = this.size.ccal + this.dough.ccal + ` ccal (no topping)`;
+			return finalCaloriesSum;
+		}
 	}
 }
 

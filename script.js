@@ -11,10 +11,9 @@ const emailField = document.getElementById('email');
 const firstNameField = document.getElementById('enter-first-name');
 const lastNameField = document.getElementById('enter-last-name');
 const jobField = document.getElementById('enter-job');
-const photoField = document.getElementById('input-photo');
 const buttonSend = document.getElementById('send-button');
 const newUserList = document.getElementById('new-user-list');
-
+const newUserTemplate = document.getElementById('new-user-template');
 
 let count = 0;
 let result, createdPerson;
@@ -100,7 +99,7 @@ function createUserListTemplate() {
 	});
 }
 
-const newUserTemplate = document.getElementById('new-user-template');
+
 const xhrCreate = new XMLHttpRequest();
 
 //send form data
@@ -110,7 +109,6 @@ buttonSend.addEventListener('click', () => {
 	firstNameField.value = '';
 	lastNameField.value = '';
 	jobField.value = '';
-	photoField.value = '';
 });
 
 //send POST request
@@ -123,7 +121,6 @@ function sendPostRequest() {
 			"first_name": `${firstNameField.value}`,
 			"last_name": `${lastNameField.value}`,
 			"job": `${jobField.value}`,
-			"avatar": `${photoField.value.replace('C:\\fakepath\\', 'img/')}`
 		}
 	));
 	createdPerson = JSON.parse(xhrCreate.response);
@@ -134,8 +131,7 @@ function sendPostRequest() {
 function createNewUserListTemplate() {
 	sendPostRequest();
 	const createdListTemplate = newUserTemplate.innerHTML;
-	const newCreatedListTemplate = createdListTemplate.replace('{{avatar}}', createdPerson.avatar)
-		.replace('{{email}}', createdPerson.email)
+	const newCreatedListTemplate = createdListTemplate.replace('{{email}}', createdPerson.email)
 		.replace('{{first-name}}', createdPerson.first_name)
 		.replace('{{last-name}}', createdPerson.last_name)
 		.replace('{{job}}', createdPerson.job);

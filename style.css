@@ -4,25 +4,15 @@
 	align-items: flex-start;
 }
 
-.block {
-	
-	flex: 1 0 50%;
+.block {	
+	flex: 0 0 30%;
 }
 .form-block {
+	flex: 0 0 70%;
 	margin-top: 50px;
 }
 
 input {
 	display: block;
 	margin-bottom: 10px;
-}
-
-.created-image {
-	width: 200px;
-	object-fit: contain;
-}
-
-.created-image img {
-	width: 100%;
-	height: auto;
 }

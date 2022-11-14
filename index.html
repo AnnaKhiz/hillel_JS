@@ -27,7 +27,6 @@
 				Enter First name: <input type="text" id="enter-first-name">
 				Enter Last name: <input type="text" id="enter-last-name">
 				Enter Job: <input type="text" id="enter-job">
-				Browse pic: <input type="file" name="photo" id="input-photo">
 				<button type="button" id="send-button">Send</button>
 			</form>
 			<h3>New users:</h3>
@@ -47,9 +46,6 @@
 	</script>
 
 	<script type="text/template" id="new-user-template">
-		<div class="created-image">
-			<img src="{{avatar}}" alt="user photo">
-		</div>
 		<p class="user-email">Email: {{email}}</p>
 		<p class="user-first-name">First name: {{first-name}}</p>
 		<p class="user-last-name">Last name: {{last-name}}</p>

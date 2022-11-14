@@ -14,7 +14,7 @@ const jobField = document.getElementById('enter-job');
 const photoField = document.getElementById('input-photo');
 const buttonSend = document.getElementById('send-button');
 const newUserList = document.getElementById('new-user-list');
-const newUserTemplate = document.getElementById('new-user-template');
+
 
 let count = 0;
 let result, createdPerson;
@@ -100,7 +100,7 @@ function createUserListTemplate() {
 	});
 }
 
-
+const newUserTemplate = document.getElementById('new-user-template');
 const xhrCreate = new XMLHttpRequest();
 
 //send form data

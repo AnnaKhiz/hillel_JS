@@ -1,136 +1,146 @@
-/*
-1. Реализовать функцию фильтрации isBetween(min, max); 
-Пользователь задает значения min, max с окна ввода. 
-Валидировать значение min, max.
-*/
+const buttonNext = document.getElementById('button-next');
+const buttonPrev = document.getElementById('button-prev');
+const userList = document.getElementById('user-list');
+const userTemplate = document.getElementById('user-template');
+const currentPage = document.getElementById('cur-page');
+const pageCount = document.getElementById('page-count-template');
+const pageNumber = document.getElementById('page-number');
 
-let operation, firstDigit, secondDigit, min, max;
+const form = document.getElementById('form');
+const emailField = document.getElementById('email');
+const firstNameField = document.getElementById('enter-first-name');
+const lastNameField = document.getElementById('enter-last-name');
+const jobField = document.getElementById('enter-job');
+const photoField = document.getElementById('input-photo');
+const buttonSend = document.getElementById('send-button');
+const newUserList = document.getElementById('new-user-list');
+const newUserTemplate = document.getElementById('new-user-template');
 
-function checkMinMax() {
-	min = prompt('Enter min digit');
-	max = prompt('Enter max digit');
-	if (isNaN(min)) {
-		alert('It\'s not a digit!');
-	} else if (min == '' || min.match(/^[ ]+$/)) {
-		alert('The field is empty');
+let count = 0;
+let result, createdPerson;
+
+
+const xhr = new XMLHttpRequest();
+
+//open next page
+buttonNext.addEventListener('click', (e) => {
+	(count++) % count;
+	createCountPageTemplete();
+	if (!getRequestUsers()) {
+		userList.innerText = `\nThere are no more users`;
+		buttonNext.disabled = true;
+		buttonPrev.disabled = false;
+	} else {
+		createUserListTemplate();
+		blockZeroPage();
 	}
-	if (isNaN(max)) {
-		alert('It\'s not a digit!');
-	} else if (max == '' || max.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [min, max];
-}
+});
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-
-const getEnteredNumbers = checkMinMax();
-function isBetween(min, max) {
-	minNumber = getEnteredNumbers[0];
-	maxNumber = getEnteredNumbers[1];
-	for (let i = 0; i <= arr.length; i++) {
-		if (arr[i] < min && arr[i] > max) {
-			return false;
+//open previous page
+buttonPrev.addEventListener('click', (e) => {
+	(count--) % count;
+	createCountPageTemplete();
+	if (!getRequestUsers()) {
+		userList.innerText = `\nThere are no more users`;
+		if (count == 1) {
+			buttonPrev.disabled = true;
 		}
+		buttonPrev.disabled = true;
+		buttonNext.disabled = false;
+	} else {
+		createUserListTemplate();
+		blockZeroPage();
 	}
-	return min >= minNumber && max < maxNumber;
+});
+
+//block previous page if count = 0
+function blockZeroPage() {
+	if (count == 1) {
+		buttonPrev.disabled = true;
+	} else {
+		buttonNext.disabled = false;
+		buttonPrev.disabled = false;
+	}
 }
 
-console.log(arr.filter(isBetween));
+//get request
+function getRequestUsers() {
+	xhr.open('GET', `https://reqres.in/api/users/?page=${count}`, false);
+	xhr.send();
+	result = JSON.parse(xhr.response);
 
-/* 
-2. Реализовать функцию calculate(operation)(a)(b). 
-Пользователь указывает нужную ему операцию (+, -, *, /, pow), указывает первый операнд, указывает второй операнд. 
-Все вводимые значения валидировать.
-calculation(pow)(2)(3) => 8.
-*/
-
-
-function checkDigits() {
-	if (isNaN(firstDigit)) {
-		alert('It\'s not a digit!');
-	} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
+	if (result.data.length !== 0 && count > 0) {
+		return result;
+	} else {
+		return false;
 	}
-	if (isNaN(secondDigit)) {
-		alert('It\'s not a digit!');
-	} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [firstDigit, secondDigit];
+}
+
+//create pagination
+function createCountPageTemplete() {
+	const everyPageCount = pageCount.innerHTML;
+	const newPagecount = everyPageCount.replace('{{number}}', count);
+	pageNumber.innerText = '';
+	pageNumber.insertAdjacentHTML('beforeend',
+		`${newPagecount}`);
+}
+
+//create html-element with user info
+function createUserListTemplate() {
+	const userListTemplate = userTemplate.innerHTML;
+	let newArr = result.data;
+	userList.innerText = '';
+	newArr.forEach(element => {
+		const newUserListTemplate = userListTemplate.replace('{{avatar}}', element.avatar)
+			.replace('{{email}}', element.email)
+			.replace('{{first-name}}', element.first_name)
+			.replace('{{last-name}}', element.last_name);
+		userList.insertAdjacentHTML('beforeend',
+			`${newUserListTemplate}`);
+	});
 }
 
 
-function checkOperation(operation, firstDigit, secondDigit) {
-	switch (operation.trim()) {
-		case '+':
-			result = +firstDigit + +secondDigit;
-			break;
-		case '-':
-			result = firstDigit - secondDigit;
-			break;
-		case '*':
-			result = firstDigit * secondDigit;
-			break;
-		case '/':
-			if (secondDigit == 0) {
-				alert('Error! Сan\'t be divided by 0!');
-			} else {
-				result = firstDigit / secondDigit;
-			};
-			break;
-		case 'pow':
-			result = Math.pow(firstDigit, secondDigit);
-			break;
-		default:
-			alert('Entered operation is wrong!');
-	}
-	return result;
-}
+const xhrCreate = new XMLHttpRequest();
 
-function calculate(operation) {
-	operation = prompt('Check operation: "+", "-", "*", "/", "pow"');
-	firstDigit = prompt('Enter first digit');
-	secondDigit = prompt('Enter second digit');
-	return function (firstDigit) {
-		let getDigits = checkDigits();
-		firstDigit = getDigits[0];
-		return function (secondDigit) {
-			secondDigit = getDigits[1];
-			return checkOperation(operation, firstDigit, secondDigit);
+//send form data
+buttonSend.addEventListener('click', () => {
+	createNewUserListTemplate();
+	emailField.value = '';
+	firstNameField.value = '';
+	lastNameField.value = '';
+	jobField.value = '';
+	photoField.value = '';
+});
+
+//send POST request
+function sendPostRequest() {
+	xhrCreate.open('POST', 'https://reqres.in/api/users', false);
+	xhrCreate.setRequestHeader('Content-type', 'application/json');
+	xhrCreate.send(JSON.stringify(
+		{
+			"email": `${emailField.value}`,
+			"first_name": `${firstNameField.value}`,
+			"last_name": `${lastNameField.value}`,
+			"job": `${jobField.value}`,
+			"avatar": `${photoField.value.replace('C:\\fakepath\\', 'img/')}`
 		}
-	}
+	));
+	createdPerson = JSON.parse(xhrCreate.response);
+	return createdPerson;
 }
 
-//alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
-
-
-/*
-3. Реализовать функцию сортировки sortByField(fieldName, sortType) для списка товаров с полями name, price, quantity.
-sortType возможные значения: asc, desc - по возрастанию, по убыванию соответственно.
-*/
-
-const products = [
-	{ name: 'Product 1', quantity: 10, price: 25 },
-	{ name: 'Product 2', quantity: 3, price: 55 },
-	{ name: 'Product 3', quantity: 22, price: 35 },
-]
-
-function sortByField(fieldName, sortType) {
-	switch (sortType) {
-		case 'desc':
-			return sortByField(fieldName).desc();
-		case 'asc':
-			return sortByField(fieldName).asc();
-	}
-	return {
-		desc() {
-			return (a, b) => a[fieldName] < b[fieldName] ? 1 : -1;
-		},
-		asc() {
-			return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
-		}
-	}
+//create new list template, change template variables
+function createNewUserListTemplate() {
+	sendPostRequest();
+	const createdListTemplate = newUserTemplate.innerHTML;
+	const newCreatedListTemplate = createdListTemplate.replace('{{avatar}}', createdPerson.avatar)
+		.replace('{{email}}', createdPerson.email)
+		.replace('{{first-name}}', createdPerson.first_name)
+		.replace('{{last-name}}', createdPerson.last_name)
+		.replace('{{job}}', createdPerson.job);
+	newUserList.insertAdjacentHTML('beforeend',
+		`${newCreatedListTemplate}`);
 }
 
-console.log(products.sort(sortByField('price', 'asc')));
+

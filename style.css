@@ -1,0 +1,28 @@
+.container {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.block {
+	
+	flex: 1 0 50%;
+}
+.form-block {
+	margin-top: 50px;
+}
+
+input {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.created-image {
+	width: 200px;
+	object-fit: contain;
+}
+
+.created-image img {
+	width: 100%;
+	height: auto;
+}

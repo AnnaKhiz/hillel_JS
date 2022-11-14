@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="script.js" defer></script>
+	<link rel="stylesheet" href="style.css">
+	<title>Homework-17</title>
+</head>
+
+<body>
+	<section class="container">
+		<div class="block">
+			<h3>Users list:</h3>
+			<div id="page-number"></div>
+			<div class="user-list" id="user-list"></div>
+			<div class="">
+				<button type="button" id="button-prev">Prev</button>
+				<button type="button" id="button-next">Next</button>
+			</div>
+		</div>
+		<div class="block form-block">
+			<form action="#" class="form" id="form">
+				Enter Email: <input type="text" id="email">
+				Enter First name: <input type="text" id="enter-first-name">
+				Enter Last name: <input type="text" id="enter-last-name">
+				Enter Job: <input type="text" id="enter-job">
+				Browse pic: <input type="file" name="photo" id="input-photo">
+				<button type="button" id="send-button">Send</button>
+			</form>
+			<h3>New users:</h3>
+			<div class="new-user-list" id="new-user-list"></div>
+		</div>
+	</section>
+
+	<script type="text/template" id="page-count-template">
+		<span id="cur-page">Page - {{number}}</span>
+	</script>
+
+	<script type="text/template" id="user-template">
+		<img src="{{avatar}}" alt="user photo">
+		<p class="user-email">Email: {{email}}</p>
+		<p class="user-first-name">First name: {{first-name}}</p>
+		<p class="user-last-name">Last name: {{last-name}}</p>
+	</script>
+
+	<script type="text/template" id="new-user-template">
+		<div class="created-image">
+			<img src="{{avatar}}" alt="user photo">
+		</div>
+		<p class="user-email">Email: {{email}}</p>
+		<p class="user-first-name">First name: {{first-name}}</p>
+		<p class="user-last-name">Last name: {{last-name}}</p>
+		<p class="user-job">Job: {{job}}</p>
+	</script>
+</body>
+
+</html>

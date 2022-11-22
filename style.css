@@ -37,6 +37,7 @@ input {
 }
 
 .size {
+	margin: 0 auto;
 	display: block;
 	width: 128px;
 	height: 128px;
@@ -102,6 +103,7 @@ p.user-last-name {
 }
 
 .template-user-block {
+	text-align: center;
 	padding: 15px;
 	margin-bottom: 20px;
 	background-color: antiquewhite;

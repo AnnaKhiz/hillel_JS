@@ -11,7 +11,6 @@ const form = document.getElementById('form');
 const emailField = document.getElementById('email');
 const passwordField = document.getElementById('password');
 const lastNameField = document.getElementById('enter-last-name');
-const jobField = document.getElementById('enter-job');
 const buttonLogin = document.getElementById('login-button');
 const newUserList = document.getElementById('new-user-list');
 const newUserTemplate = document.getElementById('new-user-template');
@@ -74,6 +73,7 @@ buttonPrev.addEventListener('click', (e) => {
 		createUserListTemplate();
 		blockZeroPage();
 		deleteElem();
+		editElem();
 	}
 });
 
@@ -129,6 +129,7 @@ function createUserListTemplate() {
 
 const xhrCreate = new XMLHttpRequest();
 
+//login and password for successful authorization
 console.log('eve.holt@reqres.in')
 console.log('cityslicka')
 
@@ -174,7 +175,7 @@ buttonLogin.addEventListener('click', () => {
 
 //delete user item
 function deleteElem() {
-	[...delButId].forEach((element, index) => {
+	[...delButId].forEach((element) => {
 		element.addEventListener('click', (event) => {
 			const currentButton = document.getElementById(event.target.parentElement.id);
 			sendDeleteRequest(currentButton);
@@ -194,8 +195,8 @@ function editElem() {
 			document.getElementById('edit-first-name').value = currentButton.children[4].innerText;
 			document.getElementById('edit-last-name').value = currentButton.children[6].innerText;
 			const sendChangesButton = document.getElementById('edited-elem-send');
-			cancelEditWindow(editElementForm);
 			saveEditChanges(sendChangesButton, currentButton, editElementForm);
+			cancelEditWindow(editElementForm);
 		})
 	})
 }
@@ -251,11 +252,15 @@ function sendEditRequest(editAvatar, editEmail, editFirstName, editLastName, cur
 				}, 2000);
 				messageBlock.innerText = 'User info successfully updated!';
 			} catch (error) {
-				messageBlock.innerText = 'User info NOT updated!'
+				setTimeout(() => {
+					messageBlock.innerText = '';
+				}, 2500);
+				messageBlock.innerText = 'User info NOT updated! User has been deleted!';
+				editElementForm.classList.add('hidden');
 			}
 		}
 		if (result === 400) {
-			console.log('you did somtething wrong')
+			console.log('you did something wrong')
 		}
 	}
 }
@@ -266,7 +271,6 @@ function sendDeleteRequest(currentButton) {
 	xhr.send();
 	xhr.onload = () => {
 		let result = JSON.parse(xhr.status);
-		console.log(result);
 		if (result === 204) {
 			currentButton.innerHTML = '';
 			currentButton.classList.value = '';

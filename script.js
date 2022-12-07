@@ -1,136 +1,151 @@
-/*
-1. Реализовать функцию фильтрации isBetween(min, max); 
-Пользователь задает значения min, max с окна ввода. 
-Валидировать значение min, max.
-*/
+//login and password for successful authorization
+console.log('eve.holt@reqres.in')
+console.log('cityslicka')
 
-let operation, firstDigit, secondDigit, min, max;
+import * as variablesData from './variables.js';
+import {
+	createCountPageTemplete,
+	createUserListTemplate,
+} from './templates.js';
 
-function checkMinMax() {
-	min = prompt('Enter min digit');
-	max = prompt('Enter max digit');
-	if (isNaN(min)) {
-		alert('It\'s not a digit!');
-	} else if (min == '' || min.match(/^[ ]+$/)) {
-		alert('The field is empty');
+import {
+	sendDeleteRequest,
+	sendEditRequest,
+	sendPostRequest,
+	getRequestUsers,
+} from './queries.js';
+
+import {
+	blockZeroPage,
+	checkGotUserList,
+	checkEmptyFields,
+} from './verification.js';
+
+let count = 1;
+let result;
+let delButId = [];
+let editButId = [];
+
+
+(function checkLogIn() {
+	if (localStorage.getItem('token')) {
+		variablesData.default.loginForm.classList.add('hidden');
+		logIn();
 	}
-	if (isNaN(max)) {
-		alert('It\'s not a digit!');
-	} else if (max == '' || max.match(/^[ ]+$/)) {
-		alert('The field is empty');
+})()
+
+//open next page
+variablesData.default.buttonNext.addEventListener('click', (e) => {
+	(count++) % count;
+	createCountPageTemplete();
+	if (!getRequestUsers()) {
+		variablesData.default.userList.innerText = `\nThere are no more users`;
+		variablesData.default.buttonNext.disabled = true;
+		variablesData.default.buttonPrev.disabled = false;
+	} else {
+		createUserListTemplate();
+		deleteElem();
+		editElem();
+		blockZeroPage();
 	}
-	return [min, max];
-}
+});
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-
-const getEnteredNumbers = checkMinMax();
-function isBetween(min, max) {
-	minNumber = getEnteredNumbers[0];
-	maxNumber = getEnteredNumbers[1];
-	for (let i = 0; i <= arr.length; i++) {
-		if (arr[i] < min && arr[i] > max) {
-			return false;
+//open previous page
+variablesData.default.buttonPrev.addEventListener('click', (e) => {
+	(count--) % count;
+	createCountPageTemplete();
+	if (!getRequestUsers()) {
+		variablesData.default.userList.innerText = `\nThere are no more users`;
+		if (count == 1) {
+			variablesData.default.buttonPrev.disabled = true;
 		}
+		variablesData.default.buttonPrev.disabled = true;
+		variablesData.default.buttonNext.disabled = false;
+	} else {
+		createUserListTemplate();
+		blockZeroPage();
+		deleteElem();
+		editElem();
 	}
-	return min >= minNumber && max < maxNumber;
+});
+
+function logIn() {
+	variablesData.default.authorizatedContent.classList.remove('hidden');
+	variablesData.default.navBlock.classList.remove('hidden');
+	variablesData.default.loginForm.classList.add('hidden');
+	createCountPageTemplete();
+	getRequestUsers();
+	variablesData.default.emailField.value = '';
+	variablesData.default.passwordField.value = '';
 }
 
-console.log(arr.filter(isBetween));
-
-/* 
-2. Реализовать функцию calculate(operation)(a)(b). 
-Пользователь указывает нужную ему операцию (+, -, *, /, pow), указывает первый операнд, указывает второй операнд. 
-Все вводимые значения валидировать.
-calculation(pow)(2)(3) => 8.
-*/
+variablesData.default.buttonLogin.addEventListener('click', () => {
+	sendPostRequest();
+});
 
 
-function checkDigits() {
-	if (isNaN(firstDigit)) {
-		alert('It\'s not a digit!');
-	} else if (firstDigit == '' || firstDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	if (isNaN(secondDigit)) {
-		alert('It\'s not a digit!');
-	} else if (secondDigit == '' || secondDigit.match(/^[ ]+$/)) {
-		alert('The field is empty');
-	}
-	return [firstDigit, secondDigit];
+//delete user item
+function deleteElem() {
+	[...delButId].forEach((element) => {
+		element.addEventListener('click', (event) => {
+			const currentButton = document.getElementById(event.target.parentElement.id);
+			sendDeleteRequest(currentButton);
+		});
+	});
+}
+
+//edit info in user item
+function editElem() {
+	[...editButId].forEach((element) => {
+		element.addEventListener('click', (event) => {
+			const currentButton = document.getElementById(event.target.parentElement.id);
+			const editElementForm = document.getElementById('edit-form-template').innerHTML;
+			const newEditElementForm = editElementForm.replaceAll('{{id}}', element.id);
+			variablesData.default.editElementContainer.classList.remove('hidden');
+			variablesData.default.editElementContainer.innerHTML = newEditElementForm;
+			document.getElementById('edit-avatar').value = currentButton.children[0].currentSrc;
+			document.getElementById('edit-email').value = currentButton.children[2].innerText;
+			document.getElementById('edit-first-name').value = currentButton.children[4].innerText;
+			document.getElementById('edit-last-name').value = currentButton.children[6].innerText;
+			const sendChangesButton = document.getElementById('edited-elem-send');
+			const cancelButton = document.getElementById('edited-elem-cancel');
+			saveEditChanges(sendChangesButton, currentButton, newEditElementForm);
+			cancelEditWindow(variablesData.default.editElementContainer, cancelButton);
+		})
+	})
+}
+
+//cancel edit window
+function cancelEditWindow(editElementContainer, cancelButton) {
+	cancelButton.addEventListener('click', () => {
+		editElementContainer.classList.add('hidden');
+		variablesData.default.messageBlock.innerText = '';
+	});
+}
+
+//save changes after edition 
+function saveEditChanges(sendChangesButton, currentButton, newEditElementForm) {
+	sendChangesButton.addEventListener('click', () => {
+		const editAvatar = document.getElementById('edit-avatar').value;
+		const editEmail = document.getElementById('edit-email').value;
+		const editFirstName = document.getElementById('edit-first-name').value;
+		const editLastName = document.getElementById('edit-last-name').value;
+		checkEmptyFields(editAvatar, editEmail, editFirstName, editLastName, currentButton, newEditElementForm);
+	});
 }
 
 
-function checkOperation(operation, firstDigit, secondDigit) {
-	switch (operation.trim()) {
-		case '+':
-			result = +firstDigit + +secondDigit;
-			break;
-		case '-':
-			result = firstDigit - secondDigit;
-			break;
-		case '*':
-			result = firstDigit * secondDigit;
-			break;
-		case '/':
-			if (secondDigit == 0) {
-				alert('Error! Сan\'t be divided by 0!');
-			} else {
-				result = firstDigit / secondDigit;
-			};
-			break;
-		case 'pow':
-			result = Math.pow(firstDigit, secondDigit);
-			break;
-		default:
-			alert('Entered operation is wrong!');
-	}
-	return result;
-}
-
-function calculate(operation) {
-	operation = prompt('Check operation: "+", "-", "*", "/", "pow"');
-	firstDigit = prompt('Enter first digit');
-	secondDigit = prompt('Enter second digit');
-	return function (firstDigit) {
-		let getDigits = checkDigits();
-		firstDigit = getDigits[0];
-		return function (secondDigit) {
-			secondDigit = getDigits[1];
-			return checkOperation(operation, firstDigit, secondDigit);
-		}
-	}
-}
-
-//alert(`Result: ${calculate(operation)(firstDigit)(secondDigit)}`);
 
 
-/*
-3. Реализовать функцию сортировки sortByField(fieldName, sortType) для списка товаров с полями name, price, quantity.
-sortType возможные значения: asc, desc - по возрастанию, по убыванию соответственно.
-*/
+export {
+	count,
+	result,
+	delButId,
+	editButId,
+	createUserListTemplate,
+	deleteElem,
+	editElem,
+	logIn
+};
 
-const products = [
-	{ name: 'Product 1', quantity: 10, price: 25 },
-	{ name: 'Product 2', quantity: 3, price: 55 },
-	{ name: 'Product 3', quantity: 22, price: 35 },
-]
 
-function sortByField(fieldName, sortType) {
-	switch (sortType) {
-		case 'desc':
-			return sortByField(fieldName).desc();
-		case 'asc':
-			return sortByField(fieldName).asc();
-	}
-	return {
-		desc() {
-			return (a, b) => a[fieldName] < b[fieldName] ? 1 : -1;
-		},
-		asc() {
-			return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
-		}
-	}
-}
-
-console.log(products.sort(sortByField('price', 'asc')));

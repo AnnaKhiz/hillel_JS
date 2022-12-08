@@ -2,23 +2,23 @@
 console.log('eve.holt@reqres.in')
 console.log('cityslicka')
 
-import { CONSTANTS } from '/modules/constants.js';
+import { CONSTANTS } from './modules/constants.js';
 import {
 	createCountPageTemplete,
 	createUserListTemplate,
-} from '/modules/templates.js';
+} from './modules/templates.js';
 
 import {
 	sendDeleteRequest,
 	sendPostRequest,
 	getRequestUsers,
-} from '/modules/queries.js';
+} from './modules/queries.js';
 
 import {
 	blockZeroPage,
 	checkGotUserList,
 	checkEmptyFields,
-} from '/modules/verification.js';
+} from './modules/verification.js';
 
 let count = 1;
 let result;

@@ -2,24 +2,23 @@
 console.log('eve.holt@reqres.in')
 console.log('cityslicka')
 
-import * as variablesData from './variables.js';
+import { CONSTANTS } from '/modules/constants.js';
 import {
 	createCountPageTemplete,
 	createUserListTemplate,
-} from './templates.js';
+} from './modules/templates.js';
 
 import {
 	sendDeleteRequest,
-	sendEditRequest,
 	sendPostRequest,
 	getRequestUsers,
-} from './queries.js';
+} from './modules/queries.js';
 
 import {
 	blockZeroPage,
 	checkGotUserList,
 	checkEmptyFields,
-} from './verification.js';
+} from './modules/verification.js';
 
 let count = 1;
 let result;
@@ -29,19 +28,19 @@ let editButId = [];
 
 (function checkLogIn() {
 	if (localStorage.getItem('token')) {
-		variablesData.default.loginForm.classList.add('hidden');
+		CONSTANTS.LOGIN_FORM.classList.add('hidden');
 		logIn();
 	}
 })()
 
 //open next page
-variablesData.default.buttonNext.addEventListener('click', (e) => {
+CONSTANTS.BUTTON_NEXT.addEventListener('click', (e) => {
 	(count++) % count;
 	createCountPageTemplete();
 	if (!getRequestUsers()) {
-		variablesData.default.userList.innerText = `\nThere are no more users`;
-		variablesData.default.buttonNext.disabled = true;
-		variablesData.default.buttonPrev.disabled = false;
+		CONSTANTS.USER_LIST.innerText = `\nThere are no more users`;
+		CONSTANTS.BUTTON_NEXT.disabled = true;
+		CONSTANTS.BUTTON_PREV.disabled = false;
 	} else {
 		createUserListTemplate();
 		deleteElem();
@@ -51,16 +50,16 @@ variablesData.default.buttonNext.addEventListener('click', (e) => {
 });
 
 //open previous page
-variablesData.default.buttonPrev.addEventListener('click', (e) => {
+CONSTANTS.BUTTON_PREV.addEventListener('click', (e) => {
 	(count--) % count;
 	createCountPageTemplete();
 	if (!getRequestUsers()) {
-		variablesData.default.userList.innerText = `\nThere are no more users`;
+		CONSTANTS.USER_LIST.innerText = `\nThere are no more users`;
 		if (count == 1) {
-			variablesData.default.buttonPrev.disabled = true;
+			CONSTANTS.BUTTON_PREV.disabled = true;
 		}
-		variablesData.default.buttonPrev.disabled = true;
-		variablesData.default.buttonNext.disabled = false;
+		CONSTANTS.BUTTON_PREV.disabled = true;
+		CONSTANTS.BUTTON_NEXT.disabled = false;
 	} else {
 		createUserListTemplate();
 		blockZeroPage();
@@ -70,16 +69,16 @@ variablesData.default.buttonPrev.addEventListener('click', (e) => {
 });
 
 function logIn() {
-	variablesData.default.authorizatedContent.classList.remove('hidden');
-	variablesData.default.navBlock.classList.remove('hidden');
-	variablesData.default.loginForm.classList.add('hidden');
+	CONSTANTS.AUTHORIZATED_CONTENT.classList.remove('hidden');
+	CONSTANTS.NAV_BLOCK.classList.remove('hidden');
+	CONSTANTS.LOGIN_FORM.classList.add('hidden');
 	createCountPageTemplete();
 	getRequestUsers();
-	variablesData.default.emailField.value = '';
-	variablesData.default.passwordField.value = '';
+	CONSTANTS.EMAIL_FIELD.value = '';
+	CONSTANTS.PASSWORD_FIELD.value = '';
 }
 
-variablesData.default.buttonLogin.addEventListener('click', () => {
+CONSTANTS.BUTTON_LOGIN.addEventListener('click', () => {
 	sendPostRequest();
 });
 
@@ -101,8 +100,8 @@ function editElem() {
 			const currentButton = document.getElementById(event.target.parentElement.id);
 			const editElementForm = document.getElementById('edit-form-template').innerHTML;
 			const newEditElementForm = editElementForm.replaceAll('{{id}}', element.id);
-			variablesData.default.editElementContainer.classList.remove('hidden');
-			variablesData.default.editElementContainer.innerHTML = newEditElementForm;
+			CONSTANTS.EDIT_ELEMENT_CONTAINER.classList.remove('hidden');
+			CONSTANTS.EDIT_ELEMENT_CONTAINER.innerHTML = newEditElementForm;
 			document.getElementById('edit-avatar').value = currentButton.children[0].currentSrc;
 			document.getElementById('edit-email').value = currentButton.children[2].innerText;
 			document.getElementById('edit-first-name').value = currentButton.children[4].innerText;
@@ -110,7 +109,7 @@ function editElem() {
 			const sendChangesButton = document.getElementById('edited-elem-send');
 			const cancelButton = document.getElementById('edited-elem-cancel');
 			saveEditChanges(sendChangesButton, currentButton, newEditElementForm);
-			cancelEditWindow(variablesData.default.editElementContainer, cancelButton);
+			cancelEditWindow(CONSTANTS.EDIT_ELEMENT_CONTAINER, cancelButton);
 		})
 	})
 }
@@ -119,7 +118,7 @@ function editElem() {
 function cancelEditWindow(editElementContainer, cancelButton) {
 	cancelButton.addEventListener('click', () => {
 		editElementContainer.classList.add('hidden');
-		variablesData.default.messageBlock.innerText = '';
+		CONSTANTS.MESSAGE_BLOCK.innerText = '';
 	});
 }
 
@@ -133,9 +132,6 @@ function saveEditChanges(sendChangesButton, currentButton, newEditElementForm) {
 		checkEmptyFields(editAvatar, editEmail, editFirstName, editLastName, currentButton, newEditElementForm);
 	});
 }
-
-
-
 
 export {
 	count,

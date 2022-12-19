@@ -1,13 +1,13 @@
-import { CONSTANTS } from '/modules/constants.js';
-import {
-	count,
-	createUserListTemplate,
-	deleteElem,
-	editElem,
-	logIn
-} from '../script.js';
-
-import { blockZeroPage, checkGotUserList } from './verification.js';
+// import { CONSTANTS } from '/src/files/modules/constants.js';
+// import {
+// 	count,
+// 	createUserListTemplate,
+// 	deleteElem,
+// 	editElem,
+// 	logIn
+// } from '../script.js';
+//
+// import { blockZeroPage, checkGotUserList } from './verification.js';
 
 
 //login user
@@ -111,9 +111,9 @@ function sendDeleteRequest(currentButton) {
 		})
 }
 
-export {
-	sendDeleteRequest,
-	sendEditRequest,
-	sendPostRequest,
-	getRequestUsers
-}
+// export {
+// 	sendDeleteRequest,
+// 	sendEditRequest,
+// 	sendPostRequest,
+// 	getRequestUsers
+// }

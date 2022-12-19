@@ -1,8 +1,8 @@
-import { CONSTANTS } from '/modules/constants.js';
+// import { CONSTANTS } from '/src/files/modules/constants.js';
 // import { count, result, delButId, editButId } from './script.js';
-import { count } from '../script.js';
-
-import { sendEditRequest } from './queries.js';
+// import { count } from '../script.js';
+//
+// import { sendEditRequest } from './queries.js';
 
 //block 0 page
 function blockZeroPage() {
@@ -32,9 +32,9 @@ function checkEmptyFields(editAvatar, editEmail, editFirstName, editLastName, cu
 	}
 }
 
-export {
-	checkGotUserList,
-	blockZeroPage,
-	checkEmptyFields,
-}
+// export {
+// 	checkGotUserList,
+// 	blockZeroPage,
+// 	checkEmptyFields,
+// }
 

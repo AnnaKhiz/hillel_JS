@@ -1,6 +1,6 @@
-import { CONSTANTS } from '/modules/constants.js';
-
-import { count, delButId, editButId } from '../script.js'
+// import { CONSTANTS } from '/src/files/modules/constants.js';
+//
+// import { count, delButId, editButId } from '../script.js'
 
 //create pagination
 function createCountPageTemplete() {
@@ -30,7 +30,7 @@ function createUserListTemplate(result) {
 	});
 }
 
-export {
-	createCountPageTemplete,
-	createUserListTemplate
-}
+// export {
+// 	createCountPageTemplete,
+// 	createUserListTemplate
+// }

@@ -1,7 +1,3 @@
-// import { CONSTANTS } from '/src/files/modules/constants.js';
-//
-// import { count, delButId, editButId } from '../script.js'
-
 //create pagination
 function createCountPageTemplete() {
 	const everyPageCount = CONSTANTS.PAGE_COUNT.innerHTML;
@@ -29,8 +25,3 @@ function createUserListTemplate(result) {
 		return [...editButId, ...delButId];
 	});
 }
-
-// export {
-// 	createCountPageTemplete,
-// 	createUserListTemplate
-// }

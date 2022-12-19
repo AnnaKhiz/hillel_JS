@@ -1,15 +1,3 @@
-// import { CONSTANTS } from '/src/files/modules/constants.js';
-// import {
-// 	count,
-// 	createUserListTemplate,
-// 	deleteElem,
-// 	editElem,
-// 	logIn
-// } from '../script.js';
-//
-// import { blockZeroPage, checkGotUserList } from './verification.js';
-
-
 //login user
 function sendPostRequest() {
 	if (localStorage.getItem('token')) {
@@ -110,10 +98,3 @@ function sendDeleteRequest(currentButton) {
 			CONSTANTS.MESSAGE_BLOCK.innerText = 'User successfully deleted!'
 		})
 }
-
-// export {
-// 	sendDeleteRequest,
-// 	sendEditRequest,
-// 	sendPostRequest,
-// 	getRequestUsers
-// }

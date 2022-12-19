@@ -23,23 +23,6 @@ const CONSTANTS = {
 	NAV_BLOCK: document.getElementById('nav-block'),
 	EDIT_ELEMENT_CONTAINER: document.getElementById('edit-elem'),
 }
-// import { CONSTANTS } from './modules/constants.js';
-// import {
-// 	createCountPageTemplete,
-// 	createUserListTemplate,
-// } from './modules/templates.js';
-//
-// import {
-// 	sendDeleteRequest,
-// 	sendPostRequest,
-// 	getRequestUsers,
-// } from './modules/queries.js';
-//
-// import {
-// 	blockZeroPage,
-// 	checkGotUserList,
-// 	checkEmptyFields,
-// } from './modules/verification.js';
 
 let count = 1;
 let result;
@@ -153,16 +136,5 @@ function saveEditChanges(sendChangesButton, currentButton, newEditElementForm) {
 		checkEmptyFields(editAvatar, editEmail, editFirstName, editLastName, currentButton, newEditElementForm);
 	});
 }
-
-// export {
-// 	count,
-// 	result,
-// 	delButId,
-// 	editButId,
-// 	createUserListTemplate,
-// 	deleteElem,
-// 	editElem,
-// 	logIn
-// };
 
 

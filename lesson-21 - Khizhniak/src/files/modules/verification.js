@@ -1,9 +1,3 @@
-// import { CONSTANTS } from '/src/files/modules/constants.js';
-// import { count, result, delButId, editButId } from './script.js';
-// import { count } from '../script.js';
-//
-// import { sendEditRequest } from './queries.js';
-
 //block 0 page
 function blockZeroPage() {
 	if (count == 1) {
@@ -31,10 +25,3 @@ function checkEmptyFields(editAvatar, editEmail, editFirstName, editLastName, cu
 		CONSTANTS.MESSAGE_BLOCK.innerText = 'Don\'t leave empty fields!';
 	}
 }
-
-// export {
-// 	checkGotUserList,
-// 	blockZeroPage,
-// 	checkEmptyFields,
-// }
-

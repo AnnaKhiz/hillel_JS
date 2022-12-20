@@ -13,6 +13,7 @@ module.exports = {
         html: `${buildFolder}/`,
         js: `${buildFolder}/js/`,
         img: `${buildFolder}/img/`,
+        fonts: `${buildFolder}/fonts/`
     },
     src: {
         files: `${srcFolder}/files/`,
@@ -21,6 +22,7 @@ module.exports = {
         js: `${srcFolder}/files/script.js`,
         jsConcat: `${srcFolder}/files/**/*.js`,
         img: `${srcFolder}/files/img/**/*.png`,
+        fonts: `${srcFolder}/files/fonts/`,
     },
     watch: {
         files: `${srcFolder}/files/**/*.*`,

@@ -9,6 +9,9 @@ const startBrowserSync = require('./gulp/tasks/server.js');
 const copyHtml = require('./gulp/tasks/html.js');
 const copyImages = require('./gulp/tasks/images.js');
 const createZipAr = require('./gulp/tasks/zip.js');
+const cleanDistFolder = require('./gulp/tasks/other-tasks.js');
+const convertFontsToWoff2 = require('./gulp/tasks/fonts.js');
+
 
 global.app = {
     path,
@@ -24,7 +27,11 @@ function watchChanges() {
     gulp.watch(app.path.watch.html, copyHtml);
     gulp.watch(app.path.watch.img, copyImages);
 }
+
+const seriesTasks = gulp.series(cleanDistFolder, copyHtml, copyImages, convertFontsToWoff2 ,convertSassToCss, concatJsFiles);
+const parallelTasks = gulp.parallel(watchChanges, startBrowserSync);
+
 gulp.task('createZip', gulp.series( copyHtml, copyImages, convertSassToCss, concatJsFiles, createZipAr));
-gulp.task('run', gulp.series(copyHtml, copyImages, convertSassToCss, concatJsFiles, gulp.parallel(watchChanges, startBrowserSync)));
+gulp.task('run', gulp.series(seriesTasks, parallelTasks));
 
 

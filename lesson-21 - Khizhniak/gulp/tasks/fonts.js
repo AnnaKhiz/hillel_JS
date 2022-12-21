@@ -2,21 +2,27 @@ const fs = require('fs');
 const ttf2woff2 = require('gulp-ttf2woff2');
 const fonter = require('gulp-fonter');
 
-function convertFontsToWoff2() {
+function convertOtfToTtfAndWoff() {
     return app.gulp.src(`${app.path.src.fonts}/*.otf`, {"allowEmpty": true})
         .pipe(fonter({
             formats: ['ttf']
         }))
-        .pipe(ttf2woff2())
-        .pipe(app.gulp.dest(app.path.build.fonts))
+        .pipe(app.gulp.dest(app.path.src.fonts))
         .pipe(app.gulp.src(`${app.path.src.fonts}/*.ttf`, {"allowEmpty": true}))
+        .pipe(fonter({
+            formats: ['woff']
+        }))
+        .pipe(app.gulp.dest(app.path.build.fonts))
+}
+
+function convertTtfToWoff2() {
+    return app.gulp.src(`${app.path.src.fonts}/*.ttf`, {"allowEmpty": true})
         .pipe(ttf2woff2())
         .pipe(app.gulp.dest(app.path.build.fonts))
-        //.pipe(writeFontsToStyleFile())
 }
 
 function writeFontsToStyleFile() {
-    let fontsFile = `${app.path.srcFolder}/sass/fonts.sass`;
+    let fontsFile = `${app.path.srcFolder}/sass/_fonts.sass`;
     fs.readdir(app.path.build.fonts, function (err, fontsFiles) {
         if (fontsFiles) {
             if (!fs.existsSync(fontsFile)) {
@@ -60,6 +66,7 @@ function writeFontsToStyleFile() {
 }
 
 module.exports = {
-    convertFontsToWoff2,
+    convertOtfToTtfAndWoff,
+    convertTtfToWoff2,
     writeFontsToStyleFile
 }

@@ -10,8 +10,8 @@ const copyHtml = require('./gulp/tasks/html.js');
 const copyImages = require('./gulp/tasks/images.js');
 const createZipAr = require('./gulp/tasks/zip.js');
 const cleanDistFolder = require('./gulp/tasks/other-tasks.js');
-const {convertFontsToWoff2, writeFontsToStyleFile} = require('./gulp/tasks/fonts.js');
-//const writeFontsToStyleFile = require('./gulp/tasks/fonts.js');
+const {convertOtfToTtfAndWoff, convertTtfToWoff2, writeFontsToStyleFile} = require('./gulp/tasks/fonts.js');
+
 
 
 global.app = {
@@ -29,11 +29,11 @@ function watchChanges() {
     gulp.watch(app.path.watch.img, copyImages);
 }
 
-const fonts = gulp.series(convertFontsToWoff2, writeFontsToStyleFile)
+const fonts = gulp.series(convertOtfToTtfAndWoff, convertTtfToWoff2, writeFontsToStyleFile)
 const seriesTasks = gulp.series(copyHtml, copyImages, convertSassToCss, concatJsFiles);
 const parallelTasks = gulp.parallel(watchChanges, startBrowserSync);
 
-gulp.task('createZip', gulp.series(copyHtml, copyImages, convertSassToCss, concatJsFiles, createZipAr));
+gulp.task('createZip', gulp.series(fonts, copyHtml, copyImages, convertSassToCss, concatJsFiles, createZipAr));
 gulp.task('run', gulp.series(cleanDistFolder, fonts, seriesTasks, parallelTasks));
 
 

@@ -5,6 +5,7 @@ const rootFolder = nodePath.basename(nodePath.resolve())
 
 module.exports = {
     rootFolder,
+    srcFolder,
     dist: buildFolder,
     baseDir: buildFolder,
     build: {

@@ -1,66 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="js/app.min.js" type="module" defer></script>
-	<link rel="stylesheet" href="css/style.min.css">
-	<title>Homework-21</title>
-</head>
+	@@include('html/head.html', {
+		"title": "Homework-21"
+	})
 
 <body>
-	<div class="nav-block hidden" id="nav-block">
-		<h2>Users list:</h2>
-		<div class="nav-buttons">
-			<button type="button" id="button-prev">Prev</button>
-			<button type="button" id="button-next">Next</button>
-		</div>
-		<div id="page-number" class="page-number"></div>
-		<div id="message-block" class="message-block"></div>
-	</div>
+	@@include('html/header.html', {})
+	<main>
+		<section class="container">
+			<div class="hidden content-block" id="content-block">
+				<div class="user-list" id="user-list"></div>
+			</div>
 
-	<section class="container">
-		<div class="hidden content-block" id="content-block">
-			<div class="user-list" id="user-list"></div>
-		</div>
+			<div class="edit-elem hidden edit-block" id="edit-elem">
 
-		<div class="edit-elem hidden edit-block" id="edit-elem">
+			</div>
 
-		</div>
+			<div class="form-block" id="login-block">
+				<form action="#" class="form" id="form">
+					<label for="email">Email: <input type="email" id="email"></label>
+					<label for="password">Password: <input type="password" id="password"></label>
+					<button type="button" id="login-button" class="login-button">Login</button>
+				</form>
+				<div id="error-block" class="error-block"></div>
+			</div>
+		</section>
 
-		<div class="form-block" id="login-block">
-			<form action="#" class="form" id="form">
-				<label for="email">Email: <input type="email" id="email"></label>
-				<label for="password">Password: <input type="password" id="password"></label>
-				<button type="button" id="login-button" class="login-button">Login</button>
-			</form>
-			<div id="error-block" class="error-block"></div>
-		</div>
-	</section>
+		<script type="text/template" id="page-count-template">
+			<span id="cur-page">Page - {{number}}</span>
+		</script>
 
-	<script type="text/template" id="page-count-template">
-		<span id="cur-page">Page - {{number}}</span>
-	</script>
-
-	<script type="text/template" id="user-template">
-		<div class="user-{{id}} template-user-block" id="{{id}}">
-			<img src="{{avatar}}" alt="user photo" class="size">
-			<h3>Email:</h3>
+		<script type="text/template" id="user-template">
+			<div class="user-{{id}} template-user-block" id="{{id}}">
+				<img src="{{avatar}}" alt="user photo" class="size">
+				<h3>Email:</h3>
 				<p class="user-email">{{email}}</p>
-			<h3>First name:</h3>
+				<h3>First name:</h3>
 				<p class="user-first-name">{{first-name}}</p>
-			<h3>Last name:</h3>
+				<h3>Last name:</h3>
 				<p class="user-last-name">{{last-name}}</p>
-			<br>
-			<img src="/img/free-icon-font-edit-3917361.png" id="edit-button-{{id}}" class="edit-button"></img>
-			<img src="/img/free-icon-font-trash-3917242.png" id="delete-button-{{id}}" class="delete-button"></img>
-		</div>	
-	</script>
+				<br>
+				<img src="/img/free-icon-font-edit-3917361.png" id="edit-button-{{id}}" class="edit-button"></img>
+				<img src="/img/free-icon-font-trash-3917242.png" id="delete-button-{{id}}" class="delete-button"></img>
+			</div>
+		</script>
 
-	<script type="text/template" id="edit-form-template">
-		<div class="user-{{id}}" id="{{id}}">
+		<script type="text/template" id="edit-form-template">
+			<div class="user-{{id}}" id="{{id}}">
 				<form action="#" class="form-edit-elem">
 					<h3>Avatar:</h3>
 					<input type="text" id="edit-avatar">
@@ -74,7 +61,9 @@
 					<a href="#" id="edited-elem-cancel" class="edited-elem-cancel">Cancel</a>
 				</form>
 			</div>
-	</script>
+		</script>
+	</main>
+	@@include('html/footer.html', {})
 </body>
 
 </html>
